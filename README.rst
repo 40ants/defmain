@@ -20,11 +20,11 @@ assumes you are writing script using Roswell.
 Reasoning
 =========
 
-Explain why this project so outstanding and why it
-was created.
+Library `net.didierverna.clon <https://github.com/didierverna/clon>`_
+very powerful, but too complicated to use in simple cases. This library
+provides a wrapper which will suite in 80% cases.
 
-You can give some examples. This is how common lisp
-code should be formatted:
+Compare this code, which uses ``defmain``:
 
 .. code-block:: common-lisp
 
@@ -36,49 +36,64 @@ code should be formatted:
 
 And this is how you can provide REPL examples:
 
-.. code-block:: common-lisp-repl
+.. code-block:: common-lisp
 
-   TEST> (format nil "Blah minor: ~a"
-                     100500)
-   "Blah minor: 100500"
+   (defmain main ((debug "Show traceback instead of short message."
+                         :flag t)
+                  (log   "Filename to write log to.")
+                  (token "GitHub personal access token."
+                         :env-var "TOKEN")
+                  &rest repository)
+     "Utility to analyze github forks."
+
+     ;; Making real work
+     (loop for reporitory in (remainder)
+           do (analyze repository
+                       :log log
+                       :debug debug
+                       :token token)))
+
+With code providing same functionality, but using raw
+net.didierverna.clon:
+
+.. code-block:: common-lisp
+
+   (net.didierverna.clon:defsynopsis (:postfix "REPOSITORY")
+     (text :contents "This utility builds a report about all non-merged commits for any github repository. Just give some repository name like \"antirez/redis\" as an argument and pipe stdout to some file.
+   ")
+     (flag :short-name "h" :long-name "help"
+           :description "Print this help and exit.")
+     (flag :short-name "v" :long-name "version"
+           :description "Print version number and exit.")
+     (flag :long-name "debug"
+           :description "Show traceback instead of short message.")
+     (stropt :short-name "l" :long-name "log"
+             :description "Filename to write log to.")
+     (stropt :short-name "t" :long-name "token"
+             :env-var "TOKEN"
+             :description "GitHub personal access token."))
+
+
+   (defun main (&rest argv)
+     (declare (ignorable argv))
+     (net.didierverna.clon:make-context :cmdline (cons "12forks" argv))
+     (when (net.didierverna.clon:getopt :long-name "help")
+       (net.didierverna.clon:help)
+       (net.didierverna.clon:exit))
+
+     ;; Making real work
+     (loop for reporitory in (remainder)
+           do (analyze repository
+                       :log (net.didierverna.clon:getopt :long-name "log")
+                       :debug (net.didierverna.clon:getopt :long-name "debug")
+                       :token (net.didierverna.clon:getopt :long-name "token"))))
 
 Roadmap
 =======
 
-Provide a Roadmap.
+* Make better support for integer arguments.
+* Support more types of arguments, like filepathes and enums.
 
 .. Everything after this comment will be omitted from HTML docs.
 .. include-to
-
-Building Documentation
-======================
-
-Provide instruction how to build or use your library.
-
-How to build documentation
---------------------------
-
-To build documentation, you need a Sphinx. It is
-documentaion building tool written in Python.
-
-To install it, you need a virtualenv. Read
-this instructions
-`how to install it
-<https://virtualenv.pypa.io/en/stable/installation/#installation>`_.
-
-Also, you'll need a `cl-launch <http://www.cliki.net/CL-Launch>`_.
-It is used by documentation tool to run a script which extracts
-documentation strings from lisp systems.
-
-Run these commands to build documentation::
-
-  virtualenv env
-  source env/bin/activate
-  pip install -r docs/requirements.txt
-  invoke build_docs
-
-These commands will create a virtual environment and
-install some python libraries there. Command ``invoke build_docs``
-will build documentation and upload it to the GitHub, by replacing
-the content of the ``gh-pages`` branch.
 
