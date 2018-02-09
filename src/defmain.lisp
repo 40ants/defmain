@@ -1,4 +1,3 @@
-(in-package :cl-user)
 (defpackage defmain
   (:use :cl)
   (:export

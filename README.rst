@@ -4,8 +4,8 @@
 
 .. insert-your badges like that:
 
-.. image:: https://travis-ci.org/40ants/cl-hamcrest.svg?branch=master
-    :target: https://travis-ci.org/40ants/cl-hamcrest
+.. image:: https://travis-ci.org/40ants/defmain.svg?branch=master
+    :target: https://travis-ci.org/40ants/defmain
 
 .. Everything starting from this commit will be inserted into the
    index page of the HTML documentation.
@@ -25,16 +25,6 @@ very powerful, but too complicated to use in simple cases. This library
 provides a wrapper which will suite in 80% cases.
 
 Compare this code, which uses ``defmain``:
-
-.. code-block:: common-lisp
-
-   (defvar log-item '(:|@message| "Some"
-                      :|@timestamp| 122434342
-                      ;; this field is wrong and
-                      ;; shouldn't be here
-                      :|@fields| nil))
-
-And this is how you can provide REPL examples:
 
 .. code-block:: common-lisp
 

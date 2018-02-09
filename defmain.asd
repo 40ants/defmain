@@ -1,14 +1,3 @@
-#|
-  This file is a part of defmain project.
-|#
-
-
-(in-package :cl-user)
-(defpackage defmain-asd
-  (:use :cl :asdf))
-(in-package :defmain-asd)
-
-
 (defsystem defmain
   :version (:read-file-form "version.lisp-expr")
   :author ""
