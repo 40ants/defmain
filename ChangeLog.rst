@@ -2,6 +2,13 @@
  ChangeLog
 ===========
 
+0.2.0 (2018-02-09)
+==================
+
+* Added function ``print-help``.
+* Fixed handling of existing ``help`` option. Now you can redefine it
+  to give another description.
+
 0.1.0 (unreleased)
 ==================
 

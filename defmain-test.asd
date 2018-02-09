@@ -1,12 +1,3 @@
-#|
-  This file is a part of defmain project.
-|#
-
-(in-package :cl-user)
-(defpackage defmain-test-asd
-  (:use :cl :asdf))
-(in-package :defmain-test-asd)
-
 (defsystem defmain-test
   :author ""
   :license ""
@@ -20,5 +11,5 @@
 
   :defsystem-depends-on (:prove-asdf)
   :perform (test-op :after (op c)
-                    (funcall (intern #.(string :run-test-system) :prove-asdf) c)
-                    (asdf:clear-system c)))
+                    (symbol-call :prove-asdf :run-test-system c)
+                    (clear-system c)))
