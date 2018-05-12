@@ -2,6 +2,12 @@
  ChangeLog
 ===========
 
+0.3.0 (2018-05-12)
+==================
+
+* Fixed a way how ``--help`` option is processed. Now, this argument
+  can be redefined by user, for example, to give this option another description.
+
 0.2.0 (2018-02-09)
 ==================
 

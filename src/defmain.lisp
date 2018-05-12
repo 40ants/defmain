@@ -158,7 +158,17 @@
                                  'string)
                       (prog1 `((text :contents ,(first body)))
                         (setf body (rest body)))))
-         (bindings (make-bindings args)))
+         (bindings (make-bindings args))
+         (help-opt-provided-p (remove-if-not
+                               (lambda (binding)
+                                 (let ((command (first binding)))
+                                   ;; We are searching an option help
+                                   (and (string-equal (symbol-name command)
+                                                      "help")
+                                        ;; And it shouldn't be from the defmain package
+                                        (not (eql command
+                                                  'help)))))
+                               bindings)))
     
     `(progn
        (defsynopsis (,@synopsis-args)
@@ -169,16 +179,15 @@
          (make-context
           :cmdline (cons ,command-name argv))
 
-         ;; option help exists always
-         (if (getopt :long-name "help")
-             (help)
-
-             ;; Otherwise - run program
-             (let (,@bindings)
-               ;; Call to ensure-symbol ensures that symbol is interned into
-               ;; the package, expanding macro.
-               (declare (ignorable ,(ensure-symbol 'help)))
-               ,@body))))))
+         (let (,@bindings)
+           ;; Sometimes user may want to redefine a help option
+           ;; in this case we shouldn't decide how to print help for him.
+           ,(unless help-opt-provided-p
+              `(when help
+                 (help)
+                 (uiop:quit 1)))
+  
+           ,@body)))))
 
 
 (defun print-help ()
