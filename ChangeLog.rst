@@ -6,7 +6,12 @@
 ==================
 
 * Fixed a way how ``--help`` option is processed. Now, this argument
-  can be redefined by user, for example, to give this option another description.
+  can be redefined by user, for example, to give this option another
+  description.
+* Now, if ``:default "some string"`` is given for option, then it will
+  be parsed as string. Previously, ``lispobj`` type was used to parse
+  value, and there were problems when you tried to pass as a value
+  string with a colon, like some URL.
 
 0.2.0 (2018-02-09)
 ==================

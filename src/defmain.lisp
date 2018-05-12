@@ -16,6 +16,8 @@
    #:print-help))
 (in-package :defmain)
 
+;; For reference on defsynopsys, take a look at it's documentation
+;; https://www.lrde.epita.fr/%7Edidier/software/lisp/clon/user/
 
 (defun get-rest-arg (list)
   "Takes a lambda list and returns a symbol, naming &rest argument, or nil."
@@ -52,11 +54,18 @@
   "Returns a single fields description.
    Name argument is a symbol.
    Function returns a list."
-  (let ((result (list (if flag
-                          'flag
-                          (if default-given-p
-                              'lispobj
-                              'stropt))
+
+  ;; Type will be choosen from default if it was given,
+  ;; or will be a flag or stropt otherwise
+  ;; all supported types are described in clon's documentation
+  ;; https://www.lrde.epita.fr/%7Edidier/software/lisp/clon/user/Built_002dIn-Valued-Options.html#Built_002dIn-Valued-Options
+  (let ((result (list (cond (flag
+                             'flag)
+                            ((and default-given-p
+                                  (typep default 'integer))
+                             'lispobj)
+                            (t
+                             'stropt))
                       :short-name (make-short-name name)
                       :long-name (make-long-name name)
                       :env-var env-var
