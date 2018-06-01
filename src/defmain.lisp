@@ -196,7 +196,10 @@
                  (help)
                  (uiop:quit 1)))
   
-           ,@body)))))
+           (handler-bind ((t (lambda (condition)
+                               (uiop:print-condition-backtrace condition :stream *error-output*)
+                               (uiop:quit 1))))
+             ,@body))))))
 
 
 (defun print-help ()

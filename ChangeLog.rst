@@ -2,6 +2,15 @@
  ChangeLog
 ===========
 
+0.4.0 (2018-05-18)
+==================
+
+* Now ``defmain`` handles all unhandled conditions, prints a backtrace
+  and program exists with error code ``1``.
+
+  Previously, programs just started debugger and if built with CCL it
+  was impossible to interrupt it.
+
 0.3.0 (2018-05-12)
 ==================
 
