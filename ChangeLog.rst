@@ -10,6 +10,28 @@
 
   Previously, programs just started debugger and if built with CCL it
   was impossible to interrupt it.
+* Now it is possible to overwrite a short name of a parameter.
+  For example:
+
+  .. code:: lisp
+
+     (defmain main ((verbose "Show more informaition"
+                             :flag t) ;; by default -v will be used
+                    (version "Show version"
+                             :flag t
+                             :short "V"))
+       ...)
+
+  Also, you can pass ``nil`` as a value to disable short name:
+  
+  .. code:: lisp
+
+     (defmain main ((verbose "Show more informaition"
+                             :flag t) ;; by default -v will be used
+                    (version "Show version"
+                             :flag t
+                             :short "V"))
+       ...)
 
 0.3.0 (2018-05-12)
 ==================

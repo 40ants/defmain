@@ -47,9 +47,15 @@
 
 (defun make-field-description (name documentation
                                &key
-                                 env-var ;; name of environment variable to take value from
-                                 flag    ;; if true, then option does not require a value,
+                                 ;; name of environment variable to take value from
+                                 env-var
+                                 ;; if true, then option does not require a value,
                                  ;; but becomes True if specified on the command-line
+                                 flag
+                                 ;; when not specified, then will be created from the
+                                 ;; first character of the `name'
+                                 ;; pass :short nil, to disable short name for the argument
+                                 (short nil short-given-p)
                                  (default nil default-given-p))
   "Returns a single fields description.
    Name argument is a symbol.
@@ -66,10 +72,17 @@
                              'lispobj)
                             (t
                              'stropt))
-                      :short-name (make-short-name name)
                       :long-name (make-long-name name)
                       :env-var env-var
                       :description documentation)))
+    (unless (and short-given-p
+                 (null short))
+      (setf result
+            (append result
+                    (list :short-name
+                          (or short
+                              (make-short-name name))))))
+    
     (when default-given-p
       (setf result
             (append result
