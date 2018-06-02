@@ -1,14 +1,11 @@
 (defsystem defmain
   :version (:read-file-form "version.lisp-expr")
-  :author ""
-  :license ""
-  :depends-on (net.didierverna.clon
-               cl-strings
-               alexandria)
-  :components ((:module "src"
-                :components
-                ((:file "defmain"))))
-  :description ""
+  :author "Alexander Artemenko"
+  :license "BSD"
+  :class :package-inferred-system
+  :pathname "src"
+  :depends-on ("defmain/defmain")
+  :description "A wrapper around net.didierverna.clon which makes command line arguments parsing easier."
   :long-description
   #.(with-open-file (stream (merge-pathnames
                              #p"README.rst"

@@ -1,5 +1,6 @@
-(defpackage defmain
+(defpackage defmain/defmain
   (:use :cl)
+  (:nicknames :defmain)
   (:import-from #:net.didierverna.clon
                 #:remainder
                 #:defsynopsis
@@ -11,9 +12,8 @@
   (:import-from #:cl-strings
                 #:split
                 #:starts-with)
-  (:export
-   #:defmain
-   #:print-help))
+  (:export #:defmain
+           #:print-help))
 (in-package :defmain)
 
 ;; For reference on defsynopsys, take a look at it's documentation

@@ -2,6 +2,11 @@
  ChangeLog
 ===========
 
+0.5.0 (2018-06-02)
+==================
+
+* System was made a ``package-inferred`` and now uses Rove for tests.
+
 0.4.0 (2018-05-18)
 ==================
 
