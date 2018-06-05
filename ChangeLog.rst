@@ -2,6 +2,11 @@
  ChangeLog
 ===========
 
+0.6.0 (2018-06-07)
+==================
+
+* Added support for nested commands defined with ``defcommand`` macro.
+
 0.5.0 (2018-06-02)
 ==================
 

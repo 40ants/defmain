@@ -5,7 +5,7 @@
         #:hamcrest/rove)
   (:import-from #:defmain
                 #:help))
-(in-package :defmain-test)
+(in-package defmain-test)
 
 
 (deftest test-map-fields
@@ -26,3 +26,56 @@
                         (assert-that result
                                      (contains '(help "Show help on this program." :flag t)
                                                '(environment "The environment name")))))))
+
+
+(deftest test-make-synopsis-args
+  (testing "If empty input is OK"
+    (ok (null (defmain::make-synopsis-args '()))))
+  
+  (testing "How &rest argument is transformed into the :postfix."
+    (assert-that (defmain::make-synopsis-args '(&rest repositories))
+                 (contains :postfix "REPOSITORIES")))
+  
+  (testing "How &subcommand argument is transformed into the :postfix."
+    (assert-that (defmain::make-synopsis-args '(&subcommand))
+                 (contains :postfix "COMMAND")))
+  
+  (testing "Arguments &rest and &subcommand can't be used together."
+    (ok (signals (defmain::make-synopsis-args '(&subcommand &rest args))))))
+
+
+(deftest test-is-has-subcommand
+  (ok (equal (defmain::is-has-subcommand '((name "Your name") &subcommand))
+             t))
+  (ok (null (defmain::is-has-subcommand '((name "Your name"))))))
+
+
+
+(deftest test-add-help-field
+  (testing "It adds 'help symbol if it is not already exists."
+    (assert-that (defmain::add-help-fields '((user "The username")))
+                 (contains '(help "Show help on this program." :flag t)
+                           '(user "The username"))))
+  
+  (testing "It keeps 'help symbol if it exists."
+    (assert-that (defmain::add-help-fields '((user "Имя пользователя")
+                                             (help "Показать справку" :flag t)))
+                 (contains '(user "Имя пользователя")
+                           '(help "Показать справку" :flag t))))
+  
+  (testing "It adds help-commands if &subcommand is present"
+    (assert-that (defmain::add-help-fields '((user "Имя пользователя")
+                                             &subcommand))
+                 (contains '(defmain::help-commands "Show a list of all supported commands." :flag t :short nil)
+                           '(help "Show help on this program." :flag t)
+                           '(user "Имя пользователя")
+                           '&subcommand)))
+  
+  (testing "It keeps existing help-commands if &subcommand and help-commands are present."
+    (assert-that (defmain::add-help-fields '((help-commands "Показать список команд" :flag t)
+                                             (user "Имя пользователя")
+                                             &subcommand))
+                 (contains '(help "Show help on this program." :flag t)
+                           '(help-commands "Показать список команд" :flag t)
+                           '(user "Имя пользователя")
+                           '&subcommand))))

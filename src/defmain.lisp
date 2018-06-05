@@ -13,7 +13,10 @@
                 #:split
                 #:starts-with)
   (:export #:defmain
-           #:print-help))
+           #:print-help
+           #:subcommand
+           #:defcommand
+           #:print-commands-help))
 (in-package :defmain)
 
 ;; For reference on defsynopsys, take a look at it's documentation
@@ -27,13 +30,35 @@
            list))))
 
 
-(defun make-synopsis-args (defmain-args)
-  "Checks if there is &rest part in defmain's args and outputs it as
-\(:postfix \"REPOSITORY\"\) list."
+(defun is-has-subcommand (args)
+  "Returns t if there is &subcommand symbol in the list."
+  (loop for arg in args
+        when (and (symbolp arg)
+                  (string-equal arg '&subcommand))
+          do (return t)))
 
-  (let ((rest-arg (get-rest-arg defmain-args)))
-    (when rest-arg
-      `(:postfix ,(symbol-name rest-arg)))))
+
+(defun make-synopsis-args (defmain-args)
+  "Checks if there is &rest or &subcommand part in defmain's args and outputs it either as
+
+   \(:postfix \"REPOSITORY\"\) list
+
+   or as
+
+   \(:postfix \"SUBCOMMAND\"\) list."
+
+  (let ((rest-arg (get-rest-arg defmain-args))
+        (has-subcommand (is-has-subcommand defmain-args)))
+    
+    (when (and rest-arg
+               has-subcommand)
+      (error "You can't use &rest and &subcommand simultaneously"))
+
+    (cond
+      (rest-arg
+       `(:postfix ,(symbol-name rest-arg)))
+      (has-subcommand
+       `(:postfix "COMMAND")))))
 
 
 (defun make-long-name (symbol)
@@ -91,18 +116,23 @@
     result))
 
 
-(defun add-help-field (args)
-  (let ((help-option-already-exists
-          (assoc "help" (remove-if-not #'listp args)
-                 :test #'string-equal
-                 :key (lambda (item)
-                        (symbol-name item)))))
-    (if help-option-already-exists
-        args
-        ;; Here we need to intern help symbol into the package expanding
-        ;; the macro
-        (push (list 'help "Show help on this program." :flag t)
-              args))))
+(defun add-help-fields (args)
+  (flet ((is-already-exists (arg-name)
+           (assoc arg-name (remove-if-not #'listp args)
+                  :test #'string-equal
+                  :key (lambda (item)
+                         (symbol-name item)))))
+    
+    (unless (is-already-exists "help")
+      (push (list 'help "Show help on this program." :flag t)
+            args))
+
+    (when (and (is-has-subcommand args)
+               (not (is-already-exists "help-commands")))
+      (push (list 'help-commands "Show a list of all supported commands." :flag t :short nil)
+            args))
+
+    (values args)))
 
 
 (defun map-fields (function defmain-args)
@@ -111,7 +141,7 @@
 
    Returns a list of results from each function call."
 
-  (loop for arg in (add-help-field defmain-args)
+  (loop for arg in (add-help-fields defmain-args)
         ;; All arguments before any &something key are considered
         ;; as fields descriptions
         when (and (symbolp arg)
@@ -164,12 +194,95 @@
 "
   (let ((bindings (map-fields #'make-binding defmain-args))
         (rest-arg (get-rest-arg defmain-args)))
-    ;; 
     (when rest-arg
       (push `(,rest-arg (remainder))
             bindings))
 
     bindings))
+
+
+(defun %print-commands-help (main-symbol &key (stream *standard-output*))
+  "Outputs to stdout a help about command line utility."
+  (format stream "These commands are supported:~2%")
+  
+  (let* ((commands (get main-symbol :subcommands))
+         (commands (mapcar (lambda (c)
+                             (cons (string-downcase c)
+                                   (get-short-description c)))
+                           commands))
+         (commands (sort commands #'string< :key #'first)))
+    
+    
+    (dolist (subcommand commands)
+      (format stream " * ~A - ~A~%"
+              (car subcommand)
+              (cdr subcommand))))
+
+  (format stream "~%"))
+
+
+(defun %call-command (parent parent-arguments command-and-args)
+  (let* ((command-name (first command-and-args))
+         (args (rest command-and-args))
+         ;; Search command's symbol by name
+         (command (find command-name
+                        (get parent :subcommands)
+                        :test #'string-equal)))
+    (unless command
+      (if command-name
+          (format *error-output* "Command \"~A\" was not found.~%"
+                  (string-downcase command-name))
+          (format *error-output* "Please, specify a command.~%"))
+      (format *error-output* "~2&Here is a list of all supported commands:~2%")
+      
+      (%print-commands-help parent :stream *error-output*)
+      (uiop:quit 1))
+    
+    (apply command
+           (append parent-arguments
+                   args))))
+
+
+(defun extract-parent-args (args)
+  "Searches in the list of macro arguments a sequence like:
+
+   &parent-args (foo bar)
+
+   and returns (foo bar)."
+  (remove 'help
+          (second (member '&parent-args args))))
+
+
+(defclass cool-synopsis (net.didierverna.clon::synopsis)
+  ((command :initarg :command
+            :documentation "A symbol of a function created by defmain macro. Used to extract information about the name of the current command and a name of subcommands."
+            :reader get-command)))
+
+
+(defmethod net.didierverna.clon::help-spec ((synopsis cool-synopsis) &key program)
+  (let ((command-name (get-command synopsis)))
+    ;; If is synopsis is bound to a subcommand, then we'll
+    ;; add it's name to the program name
+    (call-next-method synopsis :program (if command-name
+                                            (format nil "~A ~A"
+                                                    program
+                                                    (string-downcase command-name))
+                                            program))))
+
+
+(defun get-short-description (command-symbol)
+  (let ((doc (documentation command-symbol 'function)))
+    (when doc
+      (first (split doc #\Newline)))))
+
+
+(defun %is-need-to-catch-errors (args)
+  "Checks if option :catch-errors t was given to the defmacro.
+   If not given, then it is True by default."
+  (let ((found (member :catch-errors args)))
+    (if found
+        (second found)
+        t)))
 
 
 (defmacro defmain (name (&rest args) &body body)
@@ -178,9 +291,20 @@
          (synopsis-fields (make-synopsis-fields args))
          (docstring (when (typep (first body)
                                  'string)
-                      (prog1 `((text :contents ,(first body)))
+                      (prog1 (first body)
                         (setf body (rest body)))))
+         (synopsis-description
+           (when docstring
+             `((text :contents ,docstring))))
+
          (bindings (make-bindings args))
+         ;; Here we'll store only parent variable names
+         (argument-names (remove 'help
+                                 (mapcar #'first
+                                         bindings)))
+         (has-subcommand-p (is-has-subcommand args))
+         (handle-conditions-p (%is-need-to-catch-errors args))
+         (parent-arguments (extract-parent-args args))
          (help-opt-provided-p (remove-if-not
                                (lambda (binding)
                                  (let ((command (first binding)))
@@ -190,29 +314,79 @@
                                         ;; And it shouldn't be from the defmain package
                                         (not (eql command
                                                   'help)))))
-                               bindings)))
-    
-    `(progn
-       (defsynopsis (,@synopsis-args)
-         ,@docstring
-         ,@synopsis-fields)
-       
-       (defun ,name (&rest argv)
-         (make-context
-          :cmdline (cons ,command-name argv))
+                               bindings))
+         (subcommand-was-called (gensym)))
 
-         (let (,@bindings)
+    `(progn
+       (defun ,name (,@parent-arguments &rest argv)
+         (declare (ignorable ,@parent-arguments))
+         
+         (let ((synopsis (defsynopsis (,@synopsis-args :make-default nil)
+                           ,@synopsis-description
+                           ,@synopsis-fields)))
+           (change-class synopsis
+                         'cool-synopsis
+                         :command ',(unless has-subcommand-p
+                                      name))
+           (make-context
+            :cmdline (cons ,command-name argv)
+            :synopsis synopsis))
+
+         (let (,@bindings
+               ,@(when has-subcommand-p
+                   `((,subcommand-was-called nil))))
            ;; Sometimes user may want to redefine a help option
            ;; in this case we shouldn't decide how to print help for him.
            ,(unless help-opt-provided-p
               `(when help
                  (help)
                  (uiop:quit 1)))
-  
-           (handler-bind ((t (lambda (condition)
-                               (uiop:print-condition-backtrace condition :stream *error-output*)
-                               (uiop:quit 1))))
-             ,@body))))))
+
+           (when help-commands
+             (%print-commands-help ',name)
+             (uiop:quit 1))
+
+           (handler-bind (,@(when handle-conditions-p 
+                              '((t (lambda (condition)
+                                     (uiop:print-condition-backtrace condition :stream *error-output*)
+                                     (uiop:quit 1))))))
+             ;; Functions (print-commands-help) and (subcommand)
+             ;; should only be available if currently defined
+             ;; procedure has subcommands
+             (flet (,@(when has-subcommand-p
+                        `((print-commands-help ()
+                                               (%print-commands-help ',name))
+                          (subcommand ()
+                                      (%call-command ',name
+                                                     (list ,@argument-names)
+                                                     (remainder))
+                                      (setf ,subcommand-was-called t)))))
+               ,@body
+
+               ;; If user didn't called (subcommand) explicitly,
+               ;; we'll do this call implicitly after his/her body.
+               ,(when has-subcommand-p
+                  `(unless ,subcommand-was-called
+                     (subcommand)))))))
+
+       ;; Now we'll store all main function's argument names into it's
+       ;; property list, to reuse them in subcommands
+       (setf (get ',name :arguments)
+             ',argument-names
+             (documentation ',name 'function)
+             ,docstring))))
+
+
+(defmacro defcommand ((parent name) (&rest args) &body body)
+  (declare (ignorable parent))
+  (let ((parent-args (get parent :arguments)))
+    `(progn
+       (defmain ,name (,@args &parent-args ,parent-args :catch-errors nil)
+         ,@body)
+
+       ;; Now we'll register subcommand in it's parent
+       (pushnew ',name
+                (get ',parent :subcommands)))))
 
 
 (defun print-help ()
