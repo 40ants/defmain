@@ -38,7 +38,7 @@ install:
   - curl -L https://raw.githubusercontent.com/snmsts/roswell/release/scripts/install-for-ci.sh | sh
   - ros install asdf/3.3.1.1
   - ros install rove
-  - ros install 40ants/hamcrest
+  - ros install 40ants/cl-hamcrest
   - ros install 40ants/cl-info
 
 before_script:
