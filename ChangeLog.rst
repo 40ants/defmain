@@ -2,6 +2,12 @@
  ChangeLog
 ===========
 
+0.6.1 (2018-06-08)
+==================
+
+* Now function ``get-subcommand-name`` is available in the main function
+  if your specified ``&subcommand`` as it's argument.
+
 0.6.0 (2018-06-07)
 ==================
 

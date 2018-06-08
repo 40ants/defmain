@@ -16,7 +16,8 @@
            #:print-help
            #:subcommand
            #:defcommand
-           #:print-commands-help))
+           #:print-commands-help
+           #:get-subcommand-name))
 (in-package :defmain)
 
 ;; For reference on defsynopsys, take a look at it's documentation
@@ -360,7 +361,9 @@
                                       (%call-command ',name
                                                      (list ,@argument-names)
                                                      (remainder))
-                                      (setf ,subcommand-was-called t)))))
+                                      (setf ,subcommand-was-called t))
+                          (get-subcommand-name ()
+                                               (first (remainder))))))
                ,@body
 
                ;; If user didn't called (subcommand) explicitly,
