@@ -364,6 +364,18 @@
                                       (setf ,subcommand-was-called t))
                           (get-subcommand-name ()
                                                (first (remainder))))))
+
+               ;; If cl-fad package is used, then we need to reset
+               ;; the logical pathname, it remembers during load.
+               ;; 
+               ;; This is needed because this pathname can be compiled into the
+               ;; binary and absent on the machine where this binary was executed.
+               ,@(when (find-package :cl-fad)
+                   `((setf (logical-pathname-translations "TEMPORARY-FILES")
+                           `(("*.*.*" ,(uiop:symbol-call :cl-fad 'get-default-temporary-directory))))))
+               ;; Also, we need to reset TEMP path inside UIOP:
+               (uiop:setup-temporary-directory)
+               
                ,@body
 
                ;; If user didn't called (subcommand) explicitly,

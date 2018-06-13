@@ -2,6 +2,17 @@
  ChangeLog
 ===========
 
+0.7.0 (2018-06-13)
+==================
+
+Defmain macro now restores temporary pathnames inside of ``cl-fad`` and
+``uiop`` packages by setting ``logical-pathname-translations`` for
+``"TEMPORARY-FILES"`` and by calling
+``(uiop:setup-temporary-directory)``.
+
+This solves issues in programs which use ``(uiop:run-program ...)`` or
+``(cl-fad:with-output-to-temporary-file ...)`` for example.
+
 0.6.1 (2018-06-08)
 ==================
 
