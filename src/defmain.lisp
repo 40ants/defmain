@@ -343,9 +343,10 @@
                  (help)
                  (uiop:quit 1)))
 
-           (when help-commands
-             (%print-commands-help ',name)
-             (uiop:quit 1))
+           ,@(when has-subcommand-p
+               `((when help-commands
+                   (%print-commands-help ',name)
+                   (uiop:quit 1))))
 
            (handler-bind (,@(when handle-conditions-p 
                               '((t (lambda (condition)

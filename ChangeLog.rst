@@ -2,6 +2,12 @@
  ChangeLog
 ===========
 
+0.7.1 (2018-06-15)
+==================
+
+Error ``Undeclared free variable DEFMAIN/DEFMAIN::HELP-COMMANDS`` was
+fixed for cases where there is no ``defcommand`` calls beside ``defmain``.
+
 0.7.0 (2018-06-13)
 ==================
 
