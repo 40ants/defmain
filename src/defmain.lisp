@@ -349,7 +349,15 @@
                    (uiop:quit 1))))
 
            (handler-bind (,@(when handle-conditions-p 
-                              '((t (lambda (condition)
+                              '((#+ccl ccl:interrupt-signal-condition
+                                 #+sbcl sb-sys:interactive-interrupt
+                                 #+clisp system::simple-interrupt-condition
+                                 #+ecl ext:interactive-interrupt
+                                 #+allegro excl:interrupt-signal
+                                 (lambda (c)
+                                   (declare (ignorable c))
+                                   (uiop:quit 0)))
+                                (t (lambda (condition)
                                      (uiop:print-condition-backtrace condition :stream *error-output*)
                                      (uiop:quit 1))))))
              ;; Functions (print-commands-help) and (subcommand)

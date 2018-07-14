@@ -2,6 +2,11 @@
  ChangeLog
 ===========
 
+0.7.2 (2018-07-14)
+==================
+
+Added Ctrl-C handling. However seems it does not work for CCL :(
+
 0.7.1 (2018-06-15)
 ==================
 
