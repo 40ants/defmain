@@ -78,6 +78,12 @@ net.didierverna.clon:
                        :debug (net.didierverna.clon:getopt :long-name "debug")
                        :token (net.didierverna.clon:getopt :long-name "token"))))
 
+Installation
+============
+
+This system is available as part of the http://Ultralisp.org
+distribution.
+
 Roadmap
 =======
 
@@ -86,4 +92,3 @@ Roadmap
 
 .. Everything after this comment will be omitted from HTML docs.
 .. include-to
-
