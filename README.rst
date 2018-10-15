@@ -33,11 +33,11 @@ Compare this code, which uses ``defmain``:
                   (log   "Filename to write log to.")
                   (token "GitHub personal access token."
                          :env-var "TOKEN")
-                  &rest repository)
+                  &rest repositories)
      "Utility to analyze github forks."
 
      ;; Making real work
-     (loop for reporitory in (remainder)
+     (loop for reporitory in repositories
            do (analyze repository
                        :log log
                        :debug debug

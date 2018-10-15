@@ -2,6 +2,13 @@
  ChangeLog
 ===========
 
+0.8.0 (2018-10-15)
+==================
+
+* Added support for positional arguments.
+* Fixed issue of catching signals not inherited from ``error`` and
+  handling them as errors by printing traceback and quitting.
+
 0.7.2 (2018-07-14)
 ==================
 
