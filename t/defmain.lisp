@@ -105,7 +105,7 @@
 (deftest test-postfix-string
   (testing "If \"rest\" argument given and has S at the end, it should be replaced with ..."
     (ok (string= (defmain::make-postfix-string nil 'cats)
-                 "CAT...")
-        (string= (defmain::make-postfix-string nil 'repositories)
+                 "CAT..."))
+    (ok (string= (defmain::make-postfix-string nil 'repositories)
                  "REPOSITORY..."))))
 
