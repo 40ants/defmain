@@ -10,8 +10,11 @@
   (:import-from #:alexandria
                 #:ensure-symbol)
   (:import-from #:cl-strings
+                #:join
                 #:split
                 #:starts-with)
+  (:import-from #:cl-inflector
+                #:singular-of)
   (:export #:defmain
            #:print-help
            #:subcommand
@@ -22,6 +25,16 @@
 
 ;; For reference on defsynopsys, take a look at it's documentation
 ;; https://www.lrde.epita.fr/%7Edidier/software/lisp/clon/user/
+
+(define-condition argument-is-required-error (error)
+  ((argument-name :initarg :name
+                  :reader get-argument-name))
+  (:report (lambda (c stream)
+             (format stream
+                     "Argument ~S is required."
+                     (string-downcase (symbol-name
+                                       (get-argument-name c)))))))
+
 
 (defun get-rest-arg (list)
   "Takes a lambda list and returns a symbol, naming &rest argument, or nil."
@@ -39,6 +52,18 @@
           do (return t)))
 
 
+(defun make-postfix-string (positional-args rest-arg)
+  (check-type positional-args list)
+  (check-type rest-arg (or symbol null))
+  
+  (join (append (mapcar #'symbol-name positional-args)
+                (when rest-arg
+                  (list (concatenate 'string
+                                     (string-upcase (singular-of rest-arg))
+                                     "..."))))
+        :separator " "))
+
+
 (defun make-synopsis-args (defmain-args)
   "Checks if there is &rest or &subcommand part in defmain's args and outputs it either as
 
@@ -48,7 +73,9 @@
 
    \(:postfix \"SUBCOMMAND\"\) list."
 
+  ;; TODO: add a test
   (let ((rest-arg (get-rest-arg defmain-args))
+        (positional-args (get-positional-args defmain-args))
         (has-subcommand (is-has-subcommand defmain-args)))
     
     (when (and rest-arg
@@ -56,8 +83,9 @@
       (error "You can't use &rest and &subcommand simultaneously"))
 
     (cond
-      (rest-arg
-       `(:postfix ,(symbol-name rest-arg)))
+      ((or rest-arg
+           positional-args)
+       `(:postfix ,(make-postfix-string positional-args rest-arg)))
       (has-subcommand
        `(:postfix "COMMAND")))))
 
@@ -71,7 +99,8 @@
           0 1))
 
 
-(defun make-field-description (name documentation
+(defun make-field-description (name
+                               documentation
                                &key
                                  ;; name of environment variable to take value from
                                  env-var
@@ -149,17 +178,24 @@
                   (char= (elt (symbol-name arg)
                               0)
                          #\&))
-          do (return-from map-fields results)
+          do (return-from map-fields
+               (remove-if #'null
+                          results))
         collect (etypecase arg
                   (symbol (funcall function arg))
                   (list (apply function arg)))
           into results
-        finally (return results)))
+        finally (return (remove-if #'null
+                                   results))))
 
 
 (defun make-synopsis-fields (defmain-args)
   "Returns fields description for net.didierverna.clon:defsynopsis."
-  (map-fields #'make-field-description defmain-args))
+  (flet ((make-field (&rest args)
+           (when (> (length args)
+                    1)
+             (apply 'make-field-description args))))
+    (map-fields #'make-field defmain-args)))
 
 
 (defun get-command-name (symbol)
@@ -177,7 +213,19 @@
 
 (defun make-binding (name &rest args)
   (declare (ignorable args))
-  `(,name (getopt :long-name ,(string-downcase (symbol-name name)))))
+
+  ;; if there is no args, then this is a positional argument,
+  ;; not a --flag or --option
+  ;; In this case, we dont generate a binding
+  (when (not (null args))
+    `(,name (getopt :long-name ,(string-downcase (symbol-name name))))))
+
+
+(defun get-positional-args (defmain-args)
+  (flet ((get-name (name &rest rest)
+           (when (null rest)
+             name)))
+    (map-fields #'get-name defmain-args)))
 
 
 (defun make-bindings (defmain-args)
@@ -193,12 +241,26 @@
    \(\(debug \(net.didierverna.clon:getopt :long-name \"debug\"\)\)
      \(log \(net.didierverna.clon:getopt :long-name \"log\"\)\)\)
 "
-  (let ((bindings (map-fields #'make-binding defmain-args))
-        (rest-arg (get-rest-arg defmain-args)))
-    (when rest-arg
-      (push `(,rest-arg (remainder))
-            bindings))
+  (map-fields #'make-binding defmain-args))
 
+
+(defun make-positional-bindings (defmain-args)
+  "Returns a list of forms for \"let\" form.
+   It is like make-bindings, but only returns bindings for positional arguments.
+   The should be separate because applied after the --help option was checked.
+"
+  (let ((bindings nil)
+        (rest-arg (get-rest-arg defmain-args))
+        (positional-args (get-positional-args defmain-args)))
+
+    (when rest-arg
+      (push `(,rest-arg %rest-arguments)
+            bindings))
+    
+    (loop for arg in (reverse positional-args)
+          do (push `(,arg (%pop-argument ',arg))
+                   bindings))
+    
     bindings))
 
 
@@ -299,6 +361,7 @@
              `((text :contents ,docstring))))
 
          (bindings (make-bindings args))
+         (positional-bindings (make-positional-bindings args))
          ;; Here we'll store only parent variable names
          (argument-names (remove 'help
                                  (mapcar #'first
@@ -333,65 +396,83 @@
             :cmdline (cons ,command-name argv)
             :synopsis synopsis))
 
-         (let (,@bindings
+         (let ((%rest-arguments (remainder)))
+           (declare (ignorable %rest-arguments))
+           
+           (flet ((%pop-argument (name)
+                    "This local function is used to pop positional arguments from the command line."
+                    (unless %rest-arguments
+                      (check-type name symbol)
+                      (error 'argument-is-required-error
+                             :name name))
+                    (pop %rest-arguments)))
+             (let (,@bindings
+                   ,@(when has-subcommand-p
+                       `((,subcommand-was-called nil))))
+               ;; Sometimes user may want to redefine a help option
+               ;; in this case we shouldn't decide how to print help for him.
+               ,(unless help-opt-provided-p
+                  `(when help
+                     (help)
+                     (uiop:quit 1)))
+
                ,@(when has-subcommand-p
-                   `((,subcommand-was-called nil))))
-           ;; Sometimes user may want to redefine a help option
-           ;; in this case we shouldn't decide how to print help for him.
-           ,(unless help-opt-provided-p
-              `(when help
-                 (help)
-                 (uiop:quit 1)))
+                   `((when help-commands
+                       (%print-commands-help ',name)
+                       (uiop:quit 1))))
 
-           ,@(when has-subcommand-p
-               `((when help-commands
-                   (%print-commands-help ',name)
-                   (uiop:quit 1))))
+               (handler-bind (,@(when handle-conditions-p 
+                                  '((#+ccl ccl:interrupt-signal-condition
+                                     #+sbcl sb-sys:interactive-interrupt
+                                     #+clisp system::simple-interrupt-condition
+                                     #+ecl ext:interactive-interrupt
+                                     #+allegro excl:interrupt-signal
+                                     (lambda (c)
+                                       (declare (ignorable c))
+                                       (uiop:quit 0)))
+                                    (argument-is-required-error
+                                     (lambda (c)
+                                       (format t "~A~%" c)
+                                       (uiop:quit 1)))
+                                    (error (lambda (condition)
+                                         (uiop:print-condition-backtrace condition :stream *error-output*)
+                                         (uiop:quit 1))))))
+                 ;; Positional arguments are processed here because this should happen
+                 ;; after the --help option was processed. Because otherwise there will
+                 ;; be "argument is required" error when you only give --help option.
+                 (let (,@positional-bindings)
+                   ;; Functions (print-commands-help) and (subcommand)
+                   ;; should only be available if currently defined
+                   ;; procedure has subcommands
+                   (flet (,@(when has-subcommand-p
+                              `((print-commands-help ()
+                                                     (%print-commands-help ',name))
+                                (subcommand ()
+                                            (%call-command ',name
+                                                           (list ,@argument-names)
+                                                           (remainder))
+                                            (setf ,subcommand-was-called t))
+                                (get-subcommand-name ()
+                                                     (first (remainder))))))
 
-           (handler-bind (,@(when handle-conditions-p 
-                              '((#+ccl ccl:interrupt-signal-condition
-                                 #+sbcl sb-sys:interactive-interrupt
-                                 #+clisp system::simple-interrupt-condition
-                                 #+ecl ext:interactive-interrupt
-                                 #+allegro excl:interrupt-signal
-                                 (lambda (c)
-                                   (declare (ignorable c))
-                                   (uiop:quit 0)))
-                                (t (lambda (condition)
-                                     (uiop:print-condition-backtrace condition :stream *error-output*)
-                                     (uiop:quit 1))))))
-             ;; Functions (print-commands-help) and (subcommand)
-             ;; should only be available if currently defined
-             ;; procedure has subcommands
-             (flet (,@(when has-subcommand-p
-                        `((print-commands-help ()
-                                               (%print-commands-help ',name))
-                          (subcommand ()
-                                      (%call-command ',name
-                                                     (list ,@argument-names)
-                                                     (remainder))
-                                      (setf ,subcommand-was-called t))
-                          (get-subcommand-name ()
-                                               (first (remainder))))))
+                     ;; If cl-fad package is used, then we need to reset
+                     ;; the logical pathname, it remembers during load.
+                     ;; 
+                     ;; This is needed because this pathname can be compiled into the
+                     ;; binary and absent on the machine where this binary was executed.
+                     ,@(when (find-package :cl-fad)
+                         `((setf (logical-pathname-translations "TEMPORARY-FILES")
+                                 `(("*.*.*" ,(uiop:symbol-call :cl-fad 'get-default-temporary-directory))))))
+                     ;; Also, we need to reset TEMP path inside UIOP:
+                     (uiop:setup-temporary-directory)
+                    
+                     ,@body
 
-               ;; If cl-fad package is used, then we need to reset
-               ;; the logical pathname, it remembers during load.
-               ;; 
-               ;; This is needed because this pathname can be compiled into the
-               ;; binary and absent on the machine where this binary was executed.
-               ,@(when (find-package :cl-fad)
-                   `((setf (logical-pathname-translations "TEMPORARY-FILES")
-                           `(("*.*.*" ,(uiop:symbol-call :cl-fad 'get-default-temporary-directory))))))
-               ;; Also, we need to reset TEMP path inside UIOP:
-               (uiop:setup-temporary-directory)
-               
-               ,@body
-
-               ;; If user didn't called (subcommand) explicitly,
-               ;; we'll do this call implicitly after his/her body.
-               ,(when has-subcommand-p
-                  `(unless ,subcommand-was-called
-                     (subcommand)))))))
+                     ;; If user didn't called (subcommand) explicitly,
+                     ;; we'll do this call implicitly after his/her body.
+                     ,(when has-subcommand-p
+                        `(unless ,subcommand-was-called
+                           (subcommand))))))))))
 
        ;; Now we'll store all main function's argument names into it's
        ;; property list, to reuse them in subcommands
