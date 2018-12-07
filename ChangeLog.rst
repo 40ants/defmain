@@ -2,6 +2,30 @@
  ChangeLog
 ===========
 
+0.9.0 (2018-12-07)
+==================
+
+* Added support for programs, built with ``asdf:make``.
+
+  Previously, only `roswell`_ was supported, but now
+  you can define your system as:
+
+  .. code:: common-lisp
+
+     (defsystem work-hours
+       :class :package-inferred-system
+       :build-operation "program-op"
+       :build-pathname "work-hours"
+       :entry-point "work-hours/main:main"
+       :depends-on ("work-hours/main"))
+
+  And then call in the command line something like:
+
+  .. code:: bash
+
+     qlot exec ros run -L sbcl -e '(asdf:make :work-hours)'
+
+
 0.8.0 (2018-10-15)
 ==================
 
@@ -105,3 +129,6 @@ This solves issues in programs which use ``(uiop:run-program ...)`` or
 * Specify dates as ``2017-04-19``.
 * Read `KeepAChangelog.com <http://keepachangelog.com/>`_ for futher
   explanations.
+
+
+.. _roswell: https://github.com/roswell/roswell

@@ -387,7 +387,12 @@
          
          (let ((synopsis (defsynopsis (,@synopsis-args :make-default nil)
                            ,@synopsis-description
-                           ,@synopsis-fields)))
+                           ,@synopsis-fields))
+               (argv (or argv
+                         ;; We need this to support usage of defmain
+                         ;; in programs, built with plain asdf:make
+                         ;; instead of roswell.
+                         (uiop:command-line-arguments))))
            (change-class synopsis
                          'cool-synopsis
                          :command ',(unless has-subcommand-p
