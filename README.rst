@@ -89,6 +89,35 @@ Roadmap
 
 * Make better support for integer arguments.
 * Support more types of arguments, like filepathes and enums.
+* Raise error when two short options are identical during
+  macro-expansion, not during runtime. Right now the `clon`
+  checks this during runtime::
+
+    Unhandled SIMPLE-ERROR in thread #<SB-THREAD:THREAD "main thread"
+    RUNNING {10005285B3}>:
+    
+    Options #<LISPOBJ {1002705593}> and #<STROPT {1002705C03}>:
+    indentical short name "s".
+
+    Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
+    {10005285B3}>
+    0: (SB-DEBUG::DEBUGGER-DISABLED-HOOK #<SIMPLE-ERROR "Options ~A and
+    ~A: indentical short name ~S." {100277D8F3}> #<unused argument>
+    :QUIT T)
+    1: (SB-DEBUG::RUN-HOOK SB-EXT:*INVOKE-DEBUGGER-HOOK* #<SIMPLE-ERROR
+    "Options ~A and ~A: indentical short name ~S." {100277D8F3}>)
+    2: (INVOKE-DEBUGGER #<SIMPLE-ERROR "Options ~A and ~A: indentical short name ~S." {100277D8F3}>)
+    3: (ERROR "Options ~A and ~A: indentical short name ~S."
+    #<NET.DIDIERVERNA.CLON::LISPOBJ {1002705593}>
+    #<NET.DIDIERVERNA.CLON: :STROPT {1002705C03}> "s")
+    4: ((:METHOD NET.DIDIERVERNA.CLON::CHECK-NAME-CLASH
+    (NET.DIDIERVERNA.CLON::OPTION NET.DIDIERVERNA.CLON::OPTION))
+    #<NET.DIDIERVERNA.CLON::LISPOBJ {1002705593}>
+    #<NET.DIDIERVERNA.CLON::STROPT {1002705C03}>) [fast-method]
+    5: ((:METHOD INITIALIZE-INSTANCE :AFTER
+    (NET.DIDIERVERNA.CLON::CONTAINER)) #<NET.DIDIERVERNA.CLON::SYNOPSIS
+    {100270C013}>) [fast-method]
+    
 
 .. Everything after this comment will be omitted from HTML docs.
 .. include-to
