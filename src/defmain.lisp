@@ -99,6 +99,16 @@
           0 1))
 
 
+(defun get-value-if-symbol (value)
+  "If value is a bound symbol, then returns its bound value.
+   For all other cases just returns a value itself."
+  (cond
+    ((and (typep value 'symbol)
+          (boundp value))
+     (symbol-value value))
+    (t value)))
+
+
 (defun make-field-description (name
                                documentation
                                &key
@@ -123,7 +133,7 @@
   (let ((result (list (cond (flag
                              'flag)
                             ((and default-given-p
-                                  (typep default 'integer))
+                                  (typep (get-value-if-symbol default) 'integer))
                              'lispobj)
                             (t
                              'stropt))
