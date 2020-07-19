@@ -28,6 +28,14 @@ env:
 matrix:
   allow_failures:
     - env: LISP=cmucl
+      # Started to fail at some time.
+      # I can't reproduce it in my Docker on OSX, because Allegro does not start on 64bits:
+      # /root/.roswell/impls/x86-64/linux/allegro/10.1express/alisp is not executable. Missing 32bit glibc?
+    - env: LISP=allegro
+      # Turned off, because Rove started fail under CLisp
+      # *** - READ from #<INPUT CONCATENATED-STREAM #<INPUT BUFFERED FILE-STREAM CHARACTER #P"/root/.roswell/bin/rove" @116> #<INPUT STRING-INPUT-STREAM>>:
+      # #<PACKAGE SYSTEM> has no external symbol with name "SIMPLE-INTERRUPT-CONDITION"
+    - env: LISP=clisp
 
 os:
   - osx
