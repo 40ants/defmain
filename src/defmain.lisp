@@ -372,6 +372,17 @@
 
          (bindings (make-bindings args))
          (positional-bindings (make-positional-bindings args))
+         (local-functions
+             (when positional-bindings
+               ;; We only need this function when there is one or
+               ;; more positional bindings exist.
+               (list '(%pop-argument (name)
+                       "This local function is used to pop positional arguments from the command line."
+                       (unless %rest-arguments
+                         (check-type name symbol)
+                         (error 'argument-is-required-error
+                                :name name))
+                       (pop %rest-arguments)))))
          ;; Here we'll store only parent variable names
          (argument-names (remove 'help
                                  (mapcar #'first
@@ -414,13 +425,7 @@
          (let ((%rest-arguments (remainder)))
            (declare (ignorable %rest-arguments))
            
-           (flet ((%pop-argument (name)
-                    "This local function is used to pop positional arguments from the command line."
-                    (unless %rest-arguments
-                      (check-type name symbol)
-                      (error 'argument-is-required-error
-                             :name name))
-                    (pop %rest-arguments)))
+           (flet (,@local-functions)
              (let (,@bindings
                    ,@(when has-subcommand-p
                        `((,subcommand-was-called nil))))
@@ -450,8 +455,8 @@
                                        (format t "~A~%" c)
                                        (uiop:quit 1)))
                                     (error (lambda (condition)
-                                         (uiop:print-condition-backtrace condition :stream *error-output*)
-                                         (uiop:quit 1))))))
+                                             (uiop:print-condition-backtrace condition :stream *error-output*)
+                                             (uiop:quit 1))))))
                  ;; Positional arguments are processed here because this should happen
                  ;; after the --help option was processed. Because otherwise there will
                  ;; be "argument is required" error when you only give --help option.
