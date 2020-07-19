@@ -10,7 +10,7 @@ addons:
   apt:
     packages:
       - libc6-i386
-      - openjdk-7-jre
+
 env:
   global:
     - PATH=~/.roswell/bin:$PATH
