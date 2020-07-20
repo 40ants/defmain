@@ -4,7 +4,7 @@
 
 .. insert-your badges like that:
 
-.. image:: https://travis-ci.org/40ants/defmain.svg?branch=master
+.. image:: https://travis-ci.org/40ants/defmain.svg
     :target: https://travis-ci.org/40ants/defmain
 
 .. Everything starting from this commit will be inserted into the
