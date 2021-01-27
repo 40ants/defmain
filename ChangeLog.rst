@@ -6,6 +6,7 @@
 ==================
 
 * Fixed work under ``ABCL`` and probably ``CMUCL``.
+* Help commands now exit with 0 status code.
 
 0.9.0 (2018-12-07)
 ==================

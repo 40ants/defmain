@@ -432,12 +432,12 @@
                ,(unless help-opt-provided-p
                   `(when help
                      (help)
-                     (uiop:quit 1)))
+                     (uiop:quit 0)))
 
                ,@(when has-subcommand-p
                    `((when help-commands
                        (%print-commands-help ',name)
-                       (uiop:quit 1))))
+                       (uiop:quit 0))))
 
                (handler-bind (,@(when handle-conditions-p 
                                   '(#+(or ccl sbcl clisp ecl allegro)
