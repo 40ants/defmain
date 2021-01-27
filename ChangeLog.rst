@@ -7,6 +7,7 @@
 
 * Fixed work under ``ABCL`` and probably ``CMUCL``.
 * Help commands now exit with 0 status code.
+* Fixed annoying banner about missing ``CC`` env variable.
 
 0.9.0 (2018-12-07)
 ==================
