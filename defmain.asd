@@ -11,3 +11,15 @@
   :depends-on ("defmain/defmain")
   :in-order-to ((test-op (test-op defmain-test))))
 
+;; To not get rid of banners like this, we need to load only core
+;; system of Clon:
+;; 
+;; *******************************************************************
+;; * WARNING: the CC environment variable is not set.                *
+;; * Clon will be loaded without support for terminal autodetection. *
+;; * See sections 2 and A.1 of the user manual for more information. *
+;; *******************************************************************
+;;
+;;  This system does not try to use non-ANSI features of Clon.
+(asdf:register-system-packages "net.didierverna.clon.core"
+                               '(#:net.didierverna.clon))

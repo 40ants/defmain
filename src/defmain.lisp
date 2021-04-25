@@ -347,8 +347,6 @@ on the site to setup the distribution, and then install DEFMAIN system using Qui
 
 
 (defun make-binding (name &rest args)
-  (declare (ignorable args))
-
   ;; if there is no args, then this is a positional argument,
   ;; not a --flag or --option
   ;; In this case, we dont generate a binding
@@ -559,21 +557,22 @@ on the site to setup the distribution, and then install DEFMAIN system using Qui
                ,(unless help-opt-provided-p
                   `(when help
                      (help)
-                     (uiop:quit 1)))
+                     (uiop:quit 0)))
 
                ,@(when has-subcommand-p
                    `((when help-commands
                        (%print-commands-help ',name)
-                       (uiop:quit 1))))
+                       (uiop:quit 0))))
 
                (handler-bind (,@(when handle-conditions-p 
-                                  '((#+ccl ccl:interrupt-signal-condition
+                                  '(#+(or ccl sbcl clisp ecl allegro)
+                                    (#+ccl ccl:interrupt-signal-condition
                                      #+sbcl sb-sys:interactive-interrupt
                                      #+clisp system::simple-interrupt-condition
                                      #+ecl ext:interactive-interrupt
                                      #+allegro excl:interrupt-signal
                                      (lambda (c)
-                                       (declare (ignorable c))
+                                       (declare (ignore c))
                                        (uiop:quit 0)))
                                     (argument-is-required-error
                                      (lambda (c)
@@ -628,7 +627,6 @@ on the site to setup the distribution, and then install DEFMAIN system using Qui
 
 
 (defmacro defcommand ((parent name) (&rest args) &body body)
-  (declare (ignorable parent))
   (let ((parent-args (get parent :arguments)))
     `(progn
        (defmain ,name (,@args &parent-args ,parent-args :catch-errors nil)

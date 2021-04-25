@@ -2,13 +2,20 @@
  ChangeLog
 ===========
 
-0.10.0 (2020-04-25)
+0.10.0 (2021-04-25)
 ===================
 
 * Moved documentation from reStructured readme to 40ANTS-DOC
   documentation builder.
 * Added github actions for building docs, linting and testing.
   Using `40ANTS-CI <https://40ants.com/ci/>`_ generator.
+
+0.9.1 (2021-01-27)
+==================
+
+* Fixed work under ``ABCL`` and probably ``CMUCL``.
+* Help commands now exit with 0 status code.
+* Fixed annoying banner about missing ``CC`` env variable.
 
 0.9.0 (2018-12-07)
 ==================
