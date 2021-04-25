@@ -34,6 +34,7 @@
 
 (defsection @index (:title "DEFMAIN - intuitive command line options parser for Common Lisp")
   (defmain system)
+  "[![](https://github-actions.40ants.com/40ants/defmain/matrix.svg)](https://github.com/40ants/defmain/actions)"
   (@reasoning section)
   (@installation section)
   (@roadmap section))
