@@ -120,7 +120,7 @@ on the site to setup the distribution, and then install DEFMAIN system using Qui
 * Raise error when two short options are identical during
   macro-expansion, not during runtime. Right now the `clon`
   checks this during runtime:
-
+  
   ```
   Unhandled SIMPLE-ERROR in thread #<SB-THREAD:THREAD "main thread"
   RUNNING {10005285B3}>:
