@@ -8,7 +8,12 @@
     ((verbose "Show more details in the output."
               :flag t)
      &subcommand)
-  "The main program to host subcommands.")
+  "The main program to host subcommands."
+  
+  ;; These lines are optional
+  (format t "Before subcommand.~%")
+  (defmain:subcommand)
+  (format t "After subcommand.~%"))
 
 
 (defmain:defcommand (main upload)

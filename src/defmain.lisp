@@ -34,6 +34,7 @@
 
 (defsection @index (:title "DEFMAIN - intuitive command line options parser for Common Lisp"
                     :ignore-words ("VERBOSE"
+                                   "MAIN"
                                    "SOME-VAR"))
   (defmain system)
   "
@@ -129,7 +130,8 @@ on the site to setup the distribution, and then install DEFMAIN system using Qui
   "The main entry point for defining the main function for your program is the DEFMAIN macro:"
 
   (defmain macro)
-  (@subcommands section))
+  (@subcommands section)
+  (@helpers section))
 
 
 (defsection @subcommands (:title "Subcommands")
@@ -141,6 +143,17 @@ to define additional subcommands using DEFCOMMAND macro:
 "
 
   (defcommand macro))
+
+
+(defsection @helpers (:title "Helpers")
+  "
+When writing more complex logic, these helpers could be useful:
+"
+
+  (print-help function)
+  (print-commands-help function)
+  (get-subcommand-name function)
+  (subcommand function))
 
 
 (defsection @roadmap (:title "Roadmap"
@@ -437,6 +450,28 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
     bindings))
 
 
+(defun print-commands-help ()
+  "Outputs information about supported subcommands.
+
+   It should be called from the function defined with DEFMAIN macro."
+  (error "Function PRINT-COMMANDS-HELP is only available inside DEFMAIN macro."))
+
+
+(defun get-subcommand-name ()
+  "Returns a string with current subcommand's name.
+
+   It should be called from the function defined with DEFMAIN macro."
+  (error "Function GET-SUBCOMMAND-NAME is only available inside DEFMAIN macro."))
+
+
+(defun subcommand ()
+  "Executes the current subcommand. It is called automatically at the end of the
+   main body unless you call it manually.
+
+   It can be called from the function defined with DEFMAIN macro."
+  (error "Function SUBCOMMAND is only available inside DEFMAIN macro."))
+
+
 (defun %print-commands-help (main-symbol &key (stream *standard-output*))
   "Outputs to stdout a help about command line utility."
   (format stream "These commands are supported:~2%")
@@ -546,24 +581,24 @@ to override the letter, used for the short option.
 For example, here we have a conflict:
 
 ```
-(defmain main ((version "Print program version and exit")
-               (verbose "Provide more detail on the output"))
+(defmain (main) ((version "Print program version and exit")
+                 (verbose "Provide more detail on the output"))
    ...)
 ```
 
 But we can tell DEFMAIN to use `-V` option for verbose, instead of `-v`
 
 ```
-(defmain main ((version "Print program version and exit")
-               (verbose "Provide more detail on the output" :short "V"))
+(defmain (main) ((version "Print program version and exit")
+                 (verbose "Provide more detail on the output" :short "V"))
    ...)
 ```
 
 Also, we can pass NIL, to turn off short version for VERBOSE argument:
 
 ```
-(defmain main ((version "Print program version and exit")
-               (verbose "Provide more detail on the output" :short NIL))
+(defmain (main) ((version "Print program version and exit")
+                 (verbose "Provide more detail on the output" :short NIL))
    ...)
 ```
 
@@ -755,27 +790,47 @@ PROGRAM-NAME argument.
   """
 This macro is similar to DEFMAIN macro in terms of arguments and body processing.
 
-The only difference is that instead of the symbolic name you have to provide a
+The only difference is that instead of the single name you have to provide a
 list of two names:
 
 - First element should be the name of the parent function.
   It can be either a main entry-point or other subcommand.
 - Second element is a symbol to name the subcommand.
 
-Here is an example with of a program with two subcommands:
+Here is an example with of a program with two subcommands.
+Pay attention to the `MAIN` function's argument list.
+It ends with a special symbol &SUBCOMMAND. It should be
+provided to let macro know there will be some subcommands
+defined later. 
 
 ```
-(defmain main ((verbose "More detail in the output"))
+(defmain (main) ((verbose "More detail in the output")
+                 &subcommand)
    ...)
 
 (defcommand (main upload) ((upstream "Repository name")
-                         (force "Rewrite changes in case of conflict"
-                                :flag t))
+                           (force "Rewrite changes in case of conflict"
+                                  :flag t))
    ...)
 
 (defcommand (main sync) ()
   "Yet another subcommand."
    ...)
+```
+
+All arguments, specified for the `MAIN` function also bound for all it's subcommands.
+On command-line these arguments should preceed the subcommand's name
+
+By default, main command run's specified subcommand and exits, but you can use
+it as a decorator, to execute some common code before and after as subcommand.
+
+To run subcommand, execute SUBCOMMAND function:
+
+```
+(defmain (main) ((verbose "More detail in the output"))
+  (format t "Before subcommand.~%")
+  (defmain:subcommand)
+  (format t "After subcommand.~%"))
 ```
 
   """
