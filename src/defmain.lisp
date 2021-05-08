@@ -1,6 +1,6 @@
-(uiop:define-package defmain/defmain
+(uiop:define-package :defmain
   (:use :cl)
-  (:nicknames :defmain)
+  (:nicknames :defmain/defmain)
   (:import-from #:net.didierverna.clon
                 #:remainder
                 #:defsynopsis
