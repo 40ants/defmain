@@ -2,6 +2,24 @@
  ChangeLog
 ===========
 
+0.11.0 (2021-05-08)
+===================
+
+Backward incompatible change!
+-----------------------------
+
+Now the name of a function given to the
+``DEFMAIN`` macro, should be a list, because it
+can carry optional keyword arguments, such as
+``:PROGRAM-NAME``.
+
+Other changes
+-------------
+  
+* Fixed subcommands for the case when a program was
+  compiled using ``ASDF:MAKE``.
+* Added more examples and improved documentation!
+
 0.10.0 (2021-04-25)
 ===================
 

@@ -4,14 +4,11 @@
 (in-package example)
 
 
-(defmain:defmain main
+(defmain:defmain (main :program-name "example")
     ((verbose "Show more details in the output."
               :flag t)
      &subcommand)
-  "The main program to host subcommands."
-  ;; (when verbose
-  ;;   (format t "This should never be executed, right?"))
-  )
+  "The main program to host subcommands.")
 
 
 (defmain:defcommand (main upload)
@@ -27,5 +24,4 @@
       (format t "Uploading to ~S upstream with force = ~S~%" 
               upstream
               force)
-      (format t "Uploading data: ~A~%"
-              version)))
+      (format t "Uploading data.%")))

@@ -340,7 +340,8 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 
    Returns a list of results from each function call."
 
-  (loop for arg in (add-help-fields defmain-args)
+  (loop with skip-n-args = 0
+        for arg in (add-help-fields defmain-args)
         ;; All arguments before any &something key are considered
         ;; as fields descriptions
         when (and (symbolp arg)
@@ -350,10 +351,15 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
           do (return-from map-fields
                (remove-if #'null
                           results))
-        collect (etypecase arg
-                  (symbol (funcall function arg))
-                  (list (apply function arg)))
-          into results
+        when (keywordp arg)
+          do (setf skip-n-args 2)
+        when (zerop skip-n-args)
+          collect (etypecase arg
+                    (symbol (funcall function arg))
+                    (list (apply function arg)))
+            into results
+        unless (zerop skip-n-args)
+          do (decf skip-n-args)
         finally (return (remove-if #'null
                                    results))))
 
@@ -367,7 +373,7 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
     (map-fields #'make-field defmain-args)))
 
 
-(defun get-command-name (symbol)
+(defun get-program-name (symbol)
   (let* ((package (symbol-package symbol))
          (package-name (string-downcase (package-name package)))
          (roswell-prefix "ros.script."))
@@ -468,10 +474,6 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
       (%print-commands-help parent :stream *error-output*)
       (uiop:quit 1))
 
-    (format t "TRACE: Running ~S with args = ~S~%"
-            command
-            (append parent-arguments
-                   args))
     (apply command
            (append parent-arguments
                    (list 'subcommand-args)
@@ -520,7 +522,8 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
         t)))
 
 
-(defmacro defmain (name (&rest args) &body body)
+(defmacro defmain ((name &key program-name)
+                   (&rest args) &body body)
   """
 This macro let you to define a main function for a command-line program.
 
@@ -574,8 +577,14 @@ environment variable unless it was provided by the user on the command-line.
 Arguments list of DEFMAIN macro might end with `&REST SOME-VAR`. In this case,
 all unprocessed command line arguments will be collected into the SOME-VAR list.
 
+By default program name, shown in the `--help`, will be the same as the name
+of the function or taken as a third part of the ROS.SCRIPT.THIRD-PART package
+name, if you are using Roswell. However, you can override it providing the
+PROGRAM-NAME argument.
+
  """
-  (let* ((command-name (get-command-name name))
+  (let* ((program-name (or program-name
+                           (get-program-name name)))
          (synopsis-args (make-synopsis-args args))
          (synopsis-fields (make-synopsis-fields args))
          (docstring (when (typep (first body)
@@ -646,14 +655,12 @@ all unprocessed command line arguments will be collected into the SOME-VAR list.
                     ;; in programs, built with plain asdf:make
                     ;; instead of roswell.
                     (uiop:command-line-arguments)))))
-           (format t "TRACE: argv = ~S~%"
-                   argv)
            (change-class synopsis
                          'cool-synopsis
                          :command ',(unless has-subcommand-p
                                       name))
            (make-context
-            :cmdline (cons ,command-name argv)
+            :cmdline (cons ,program-name argv)
             :synopsis synopsis))
 
          (let ((%rest-arguments (remainder)))
@@ -738,6 +745,8 @@ all unprocessed command line arguments will be collected into the SOME-VAR list.
        ;; property list, to reuse them in subcommands
        (setf (get ',name :arguments)
              ',argument-names
+             (get ',name :program-name)
+             ',program-name
              (documentation ',name 'function)
              ,docstring))))
 
@@ -770,9 +779,11 @@ Here is an example with of a program with two subcommands:
 ```
 
   """
-  (let ((parent-args (get parent :arguments)))
+  (let ((parent-args (get parent :arguments))
+        (parent-program-name (get parent :program-name)))
     `(eval-when (:compile-toplevel :load-toplevel :execute)
-       (defmain ,name (,@args &parent-args ,parent-args :catch-errors nil)
+       (defmain (,name :program-name ,parent-program-name)
+           (,@args &parent-args ,parent-args :catch-errors nil)
          ,@body)
 
        ;; Now we'll register subcommand in it's parent
