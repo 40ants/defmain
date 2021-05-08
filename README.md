@@ -47,12 +47,12 @@ provides a wrapper which will suite your needs in 80% cases.
 Compare this code, which uses [`DEFMAIN`][4e22] macro:
 
 ```
-(defmain main ((debug "Show traceback instead of short message."
-                      :flag t)
-               (log   "Filename to write log to.")
-               (token "GitHub personal access token."
-                      :env-var "TOKEN")
-               &rest repositories)
+(defmain (main) ((debug "Show traceback instead of short message."
+                        :flag t)
+                 (log   "Filename to write log to.")
+                 (token "GitHub personal access token."
+                        :env-var "TOKEN")
+                 &rest repositories)
   "Utility to analyze github forks."
 
    ;; Making real work
