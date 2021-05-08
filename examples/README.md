@@ -8,11 +8,12 @@ and setup Quicklisp by hand.
 
 To build program using `ASDF:MAKE`, just do:
 
+    cd simple
     make
 
 Also, you can use Roswell script:
 
-    ./defmain-example.ros --help
+    ./roswellexample.ros --help
 
 or build it into a binary:
 

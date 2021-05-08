@@ -1,4 +1,4 @@
-(defpackage defmain/defmain
+(uiop:define-package defmain/defmain
   (:use :cl)
   (:nicknames :defmain)
   (:import-from #:net.didierverna.clon
@@ -32,11 +32,25 @@
 (in-readtable pythonic-string-syntax)
 
 
-(defsection @index (:title "DEFMAIN - intuitive command line options parser for Common Lisp")
+(defsection @index (:title "DEFMAIN - intuitive command line options parser for Common Lisp"
+                    :ignore-words ("VERBOSE"
+                                   "SOME-VAR"))
   (defmain system)
-  "[![](https://github-actions.40ants.com/40ants/defmain/matrix.svg)](https://github.com/40ants/defmain/actions)"
+  "
+<table>
+<tr>
+  <th>Tests:</th>
+  <td><a style=\"border-bottom: none\" href=\"https://github.com/40ants/defmain/actions\"><img src=\"https://github-actions.40ants.com/40ants/defmain/matrix.svg?only=ci.run-tests\"></a></td>
+</tr>
+<tr>
+  <th>Linter:</th>
+  <td><a style=\"border-bottom: none\" href=\"https://github.com/40ants/defmain/actions\"><img src=\"https://github-actions.40ants.com/40ants/defmain/matrix.svg?only=ci.linter\"></a></td>
+</tr>
+</table>
+"
   (@reasoning section)
   (@installation section)
+  (@usage section)
   (@roadmap section))
 
 
@@ -109,6 +123,24 @@ on the site to setup the distribution, and then install DEFMAIN system using Qui
 
 """
   )
+
+
+(defsection @usage (:title "Usage")
+  "The main entry point for defining the main function for your program is the DEFMAIN macro:"
+
+  (defmain macro)
+  (@subcommands section))
+
+
+(defsection @subcommands (:title "Subcommands")
+  "
+Also, you might want to build a more complex command-line interface with subcommands.
+
+In this case, you need to use DEFMAIN macro to define the main entry-point, and then
+to define additional subcommands using DEFCOMMAND macro:
+"
+
+  (defcommand macro))
 
 
 (defsection @roadmap (:title "Roadmap"
@@ -245,8 +277,8 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
                                  ;; but becomes True if specified on the command-line
                                  flag
                                  ;; when not specified, then will be created from the
-                                 ;; first character of the `name'
-                                 ;; pass :short nil, to disable short name for the argument
+                                 ;; first character of the NAME
+                                 ;; pass :SHORT nil, to disable short name for the argument
                                  (short nil short-given-p)
                                  (default nil default-given-p))
   "Returns a single fields description.
@@ -435,9 +467,14 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
       
       (%print-commands-help parent :stream *error-output*)
       (uiop:quit 1))
-    
+
+    (format t "TRACE: Running ~S with args = ~S~%"
+            command
+            (append parent-arguments
+                   args))
     (apply command
            (append parent-arguments
+                   (list 'subcommand-args)
                    args))))
 
 
@@ -484,6 +521,60 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 
 
 (defmacro defmain (name (&rest args) &body body)
+  """
+This macro let you to define a main function for a command-line program.
+
+Usually the NAME argument will be just MAIN. This name will be bound
+to a function which will process arguments and execute the BODY.
+
+ARGS should contain an arguments definition. Each definition is a list of the form:
+
+    (NAME DESCRIPTION &KEY FLAG ENV-VAR SHORT DEFAULT)
+
+Argument's NAME should be a symbol. It names a variable which will be bound during
+the BODY execution. Also, this name is lowercased and used to form a `--long`
+command line argument.
+
+The lowercased first letter of the NAME is used as a short version of the argument,
+like `-l`. But sometimes you might encounter duplication errors when having
+a few arguments starting from the same letter. In this case provide SHORT option,
+to override the letter, used for the short option.
+
+For example, here we have a conflict:
+
+```
+(defmain main ((version "Print program version and exit")
+               (verbose "Provide more detail on the output"))
+   ...)
+```
+
+But we can tell DEFMAIN to use `-V` option for verbose, instead of `-v`
+
+```
+(defmain main ((version "Print program version and exit")
+               (verbose "Provide more detail on the output" :short "V"))
+   ...)
+```
+
+Also, we can pass NIL, to turn off short version for VERBOSE argument:
+
+```
+(defmain main ((version "Print program version and exit")
+               (verbose "Provide more detail on the output" :short NIL))
+   ...)
+```
+
+If some of your options are boolean, then give it a `:FLAG t` option,
+and a variable will become `T` if user provided this flag on the command-line.
+
+Also, you might want to specify a DEFAULT value for the argument or provide
+an environment variable name using ENV-VAR. The value will be take from the
+environment variable unless it was provided by the user on the command-line.
+
+Arguments list of DEFMAIN macro might end with `&REST SOME-VAR`. In this case,
+all unprocessed command line arguments will be collected into the SOME-VAR list.
+
+ """
   (let* ((command-name (get-command-name name))
          (synopsis-args (make-synopsis-args args))
          (synopsis-fields (make-synopsis-fields args))
@@ -498,16 +589,16 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
          (bindings (make-bindings args))
          (positional-bindings (make-positional-bindings args))
          (local-functions
-             (when positional-bindings
-               ;; We only need this function when there is one or
-               ;; more positional bindings exist.
-               (list '(%pop-argument (name)
-                       "This local function is used to pop positional arguments from the command line."
-                       (unless %rest-arguments
-                         (check-type name symbol)
-                         (error 'argument-is-required-error
-                                :name name))
-                       (pop %rest-arguments)))))
+           (when positional-bindings
+             ;; We only need this function when there is one or
+             ;; more positional bindings exist.
+             (list '(%pop-argument (name)
+                     "This local function is used to pop positional arguments from the command line."
+                     (unless %rest-arguments
+                       (check-type name symbol)
+                       (error 'argument-is-required-error
+                              :name name))
+                     (pop %rest-arguments)))))
          ;; Here we'll store only parent variable names
          (argument-names (remove 'help
                                  (mapcar #'first
@@ -527,18 +618,36 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
                                bindings))
          (subcommand-was-called (gensym)))
 
-    `(progn
+    `(eval-when
+         ;; Without this, arguments will not be stored in the
+         ;; property list, when program was compiled using ASDF.
+         ;; Compilation with Roswell worked with PROGN instead of EVAL-WHEN :(
+         (:compile-toplevel :load-toplevel :execute)
        (defun ,name (,@parent-arguments &rest argv)
          (declare (ignorable ,@parent-arguments))
          
          (let ((synopsis (defsynopsis (,@synopsis-args :make-default nil)
                            ,@synopsis-description
                            ,@synopsis-fields))
-               (argv (or argv
-                         ;; We need this to support usage of defmain
-                         ;; in programs, built with plain asdf:make
-                         ;; instead of roswell.
-                         (uiop:command-line-arguments))))
+               (argv
+                 (cond
+                   ;; We need this rule to distinguish the case
+                   ;; when subcommand receives no arguments.
+                   ;; In such case we should not try to call
+                   ;; UIOP:COMMAND-LINE-ARGUMENTS
+                   ((and argv
+                         (eql (first argv)
+                              'subcommand-args))
+                    (cdr argv))
+                   (argv
+                    argv)
+                   (t
+                    ;; We need this to support usage of defmain
+                    ;; in programs, built with plain asdf:make
+                    ;; instead of roswell.
+                    (uiop:command-line-arguments)))))
+           (format t "TRACE: argv = ~S~%"
+                   argv)
            (change-class synopsis
                          'cool-synopsis
                          :command ',(unless has-subcommand-p
@@ -600,6 +709,11 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
                                             (setf ,subcommand-was-called t))
                                 (get-subcommand-name ()
                                                      (first (remainder))))))
+                     ,@(when has-subcommand-p
+                         '((declare (ignorable
+                                     (function get-subcommand-name)
+                                     (function print-commands-help)))))
+                     
 
                      ;; If cl-fad package is used, then we need to reset
                      ;; the logical pathname, it remembers during load.
@@ -629,8 +743,35 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 
 
 (defmacro defcommand ((parent name) (&rest args) &body body)
+  """
+This macro is similar to DEFMAIN macro in terms of arguments and body processing.
+
+The only difference is that instead of the symbolic name you have to provide a
+list of two names:
+
+- First element should be the name of the parent function.
+  It can be either a main entry-point or other subcommand.
+- Second element is a symbol to name the subcommand.
+
+Here is an example with of a program with two subcommands:
+
+```
+(defmain main ((verbose "More detail in the output"))
+   ...)
+
+(defcommand (main upload) ((upstream "Repository name")
+                         (force "Rewrite changes in case of conflict"
+                                :flag t))
+   ...)
+
+(defcommand (main sync) ()
+  "Yet another subcommand."
+   ...)
+```
+
+  """
   (let ((parent-args (get parent :arguments)))
-    `(progn
+    `(eval-when (:compile-toplevel :load-toplevel :execute)
        (defmain ,name (,@args &parent-args ,parent-args :catch-errors nil)
          ,@body)
 
