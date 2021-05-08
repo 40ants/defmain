@@ -1,22 +1,23 @@
-<a id='x-28DEFMAIN-2FDEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+<a id='x-28DEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 # DEFMAIN - intuitive command line options parser for Common Lisp
 
 ## Table of Contents
 
 - [1 defmain ASDF System Details][f561]
-- [2 Reasoning][9447]
-- [3 Installation][b512]
-- [4 Usage][e173]
-    - [4.1 Subcommands][1d0e]
-- [5 Roadmap][d6d7]
+- [2 Reasoning][cffc]
+- [3 Installation][4fef]
+- [4 Usage][6b27]
+    - [4.1 Subcommands][ded7]
+    - [4.2 Helpers][f77e]
+- [5 Roadmap][3b47]
 
-###### \[in package DEFMAIN/DEFMAIN with nicknames DEFMAIN\]
+###### \[in package DEFMAIN with nicknames DEFMAIN/DEFMAIN\]
 <a id='x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
 
 ## 1 defmain ASDF System Details
 
-- Version: 0.10.0
+- Version: 0.11.0
 - Description: A wrapper around net.didierverna.clon which makes command line arguments parsing easier.
 - Licence: BSD
 - Author: Alexander Artemenko
@@ -35,7 +36,7 @@
 </tr>
 </table>
 
-<a id='x-28DEFMAIN-2FDEFMAIN-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+<a id='x-28DEFMAIN-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 2 Reasoning
 
@@ -43,7 +44,7 @@ Library [`net.didierverna.clon`](https://github.com/didierverna/clon)
 very powerful, but too complicated to use in simple cases. This library
 provides a wrapper which will suite your needs in 80% cases.
 
-Compare this code, which uses [`DEFMAIN`][5924] macro:
+Compare this code, which uses [`DEFMAIN`][4e22] macro:
 
 ```
 (defmain main ((debug "Show traceback instead of short message."
@@ -96,25 +97,25 @@ With code providing the same functionality, but using raw
 ```
 
 
-<a id='x-28DEFMAIN-2FDEFMAIN-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+<a id='x-28DEFMAIN-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 3 Installation
 
 This system is available as part of the https://ultralisp.org distribution. Follow instruction
-on the site to setup the distribution, and then install [`DEFMAIN`][5924] system using Quicklisp client:
+on the site to setup the distribution, and then install [`DEFMAIN`][4e22] system using Quicklisp client:
 
     (ql:quickload :defmain)
 
 
-<a id='x-28DEFMAIN-2FDEFMAIN-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+<a id='x-28DEFMAIN-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 4 Usage
 
-The main entry point for defining the main function for your program is the [`DEFMAIN`][5924] macro:
+The main entry point for defining the main function for your program is the [`DEFMAIN`][4e22] macro:
 
-<a id='x-28DEFMAIN-2FDEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29'></a>
+<a id='x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29'></a>
 
-- [macro] **DEFMAIN** *NAME (&REST ARGS) &BODY BODY*
+- [macro] **DEFMAIN** *(NAME &KEY PROGRAM-NAME) (&REST ARGS) &BODY BODY*
 
     This macro let you to define a main function for a command-line program.
     
@@ -137,24 +138,24 @@ The main entry point for defining the main function for your program is the [`DE
     For example, here we have a conflict:
     
     ```
-    (defmain main ((version "Print program version and exit")
-                   (verbose "Provide more detail on the output"))
+    (defmain (main) ((version "Print program version and exit")
+                     (verbose "Provide more detail on the output"))
        ...)
     ```
     
-    But we can tell [`DEFMAIN`][5924] to use `-V` option for verbose, instead of `-v`
+    But we can tell [`DEFMAIN`][4e22] to use `-V` option for verbose, instead of `-v`
     
     ```
-    (defmain main ((version "Print program version and exit")
-                   (verbose "Provide more detail on the output" :short "V"))
+    (defmain (main) ((version "Print program version and exit")
+                     (verbose "Provide more detail on the output" :short "V"))
        ...)
     ```
     
     Also, we can pass `NIL`, to turn off short version for VERBOSE argument:
     
     ```
-    (defmain main ((version "Print program version and exit")
-                   (verbose "Provide more detail on the output" :short NIL))
+    (defmain (main) ((version "Print program version and exit")
+                     (verbose "Provide more detail on the output" :short NIL))
        ...)
     ```
     
@@ -165,27 +166,32 @@ The main entry point for defining the main function for your program is the [`DE
     an environment variable name using `ENV-VAR`. The value will be take from the
     environment variable unless it was provided by the user on the command-line.
     
-    Arguments list of [`DEFMAIN`][5924] macro might end with `&REST SOME-VAR`. In this case,
+    Arguments list of [`DEFMAIN`][4e22] macro might end with `&REST SOME-VAR`. In this case,
     all unprocessed command line arguments will be collected into the SOME-VAR list.
+    
+    By default program name, shown in the `--help`, will be the same as the name
+    of the function or taken as a third part of the ROS.SCRIPT.THIRD-PART package
+    name, if you are using Roswell. However, you can override it providing the
+    `PROGRAM-NAME` argument.
     
      
 
-<a id='x-28DEFMAIN-2FDEFMAIN-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+<a id='x-28DEFMAIN-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ### 4.1 Subcommands
 
 Also, you might want to build a more complex command-line interface with subcommands.
 
-In this case, you need to use [`DEFMAIN`][5924] macro to define the main entry-point, and then
-to define additional subcommands using [`DEFCOMMAND`][5b01] macro:
+In this case, you need to use [`DEFMAIN`][4e22] macro to define the main entry-point, and then
+to define additional subcommands using [`DEFCOMMAND`][0e19] macro:
 
-<a id='x-28DEFMAIN-2FDEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29'></a>
+<a id='x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29'></a>
 
 - [macro] **DEFCOMMAND** *(PARENT NAME) (&REST ARGS) &BODY BODY*
 
-    This macro is similar to [`DEFMAIN`][5924] macro in terms of arguments and body processing.
+    This macro is similar to [`DEFMAIN`][4e22] macro in terms of arguments and body processing.
     
-    The only difference is that instead of the symbolic name you have to provide a
+    The only difference is that instead of the single name you have to provide a
     list of two names:
     
     - First element should be the name of the parent function.
@@ -193,25 +199,82 @@ to define additional subcommands using [`DEFCOMMAND`][5b01] macro:
     
     - Second element is a symbol to name the subcommand.
     
-    Here is an example with of a program with two subcommands:
+    Here is an example with of a program with two subcommands.
+    Pay attention to the `MAIN` function's argument list.
+    It ends with a special symbol `&SUBCOMMAND`. It should be
+    provided to let macro know there will be some subcommands
+    defined later. 
     
     ```
-    (defmain main ((verbose "More detail in the output"))
+    (defmain (main) ((verbose "More detail in the output")
+                     &subcommand)
        ...)
     
-    (defcommand (main push) ((upstream "Repository name")
-                             (force "Rewrite changes in case of conflict"
-                                    :flag t))
+    (defcommand (main upload) ((upstream "Repository name")
+                               (force "Rewrite changes in case of conflict"
+                                      :flag t))
        ...)
     
-    (defcommand (main update) ()
+    (defcommand (main sync) ()
       "Yet another subcommand."
        ...)
     ```
     
+    All arguments, specified for the `MAIN` function also bound for all it's subcommands.
+    On command-line these arguments should preceed the subcommand's name
+    
+    By default, main command run's specified subcommand and exits, but you can use
+    it as a decorator, to execute some common code before and after as subcommand.
+    
+    To run subcommand, execute [`SUBCOMMAND`][95f4] function:
+    
+    ```
+    (defmain (main) ((verbose "More detail in the output"))
+      (format t "Before subcommand.~%")
+      (defmain:subcommand)
+      (format t "After subcommand.~%"))
+    ```
+    
       
 
-<a id='x-28DEFMAIN-2FDEFMAIN-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+<a id='x-28DEFMAIN-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+
+### 4.2 Helpers
+
+When writing more complex logic, these helpers could be useful:
+
+<a id='x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29'></a>
+
+- [function] **PRINT-HELP** 
+
+    Outputs to stdout a help about command line utility.
+
+<a id='x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29'></a>
+
+- [function] **PRINT-COMMANDS-HELP** 
+
+    Outputs information about supported subcommands.
+    
+    It should be called from the function defined with [`DEFMAIN`][4e22] macro.
+
+<a id='x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29'></a>
+
+- [function] **GET-SUBCOMMAND-NAME** 
+
+    Returns a string with current subcommand's name.
+    
+    It should be called from the function defined with [`DEFMAIN`][4e22] macro.
+
+<a id='x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29'></a>
+
+- [function] **SUBCOMMAND** 
+
+    Executes the current subcommand. It is called automatically at the end of the
+    main body unless you call it manually.
+    
+    It can be called from the function defined with [`DEFMAIN`][4e22] macro.
+
+<a id='x-28DEFMAIN-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 5 Roadmap
 
@@ -251,14 +314,16 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 ```
 
 
-  [1d0e]: #x-28DEFMAIN-2FDEFMAIN-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Subcommands"
-  [5924]: #x-28DEFMAIN-2FDEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 "(DEFMAIN/DEFMAIN:DEFMAIN (40ANTS-DOC/LOCATIVES:MACRO))"
-  [5b01]: #x-28DEFMAIN-2FDEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 "(DEFMAIN/DEFMAIN:DEFCOMMAND (40ANTS-DOC/LOCATIVES:MACRO))"
-  [9447]: #x-28DEFMAIN-2FDEFMAIN-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Reasoning"
-  [b512]: #x-28DEFMAIN-2FDEFMAIN-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Installation"
-  [d6d7]: #x-28DEFMAIN-2FDEFMAIN-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Roadmap"
-  [e173]: #x-28DEFMAIN-2FDEFMAIN-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Usage"
+  [0e19]: #x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 "(DEFMAIN:DEFCOMMAND (40ANTS-DOC/LOCATIVES:MACRO))"
+  [3b47]: #x-28DEFMAIN-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Roadmap"
+  [4e22]: #x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 "(DEFMAIN:DEFMAIN (40ANTS-DOC/LOCATIVES:MACRO))"
+  [4fef]: #x-28DEFMAIN-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Installation"
+  [6b27]: #x-28DEFMAIN-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Usage"
+  [95f4]: #x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29 "(DEFMAIN:SUBCOMMAND FUNCTION)"
+  [cffc]: #x-28DEFMAIN-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Reasoning"
+  [ded7]: #x-28DEFMAIN-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Subcommands"
   [f561]: #x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29 "(#A((7) BASE-CHAR . \"defmain\") ASDF/SYSTEM:SYSTEM)"
+  [f77e]: #x-28DEFMAIN-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Helpers"
 
 * * *
 ###### \[generated by [40ANTS-DOC](https://40ants.com/doc)\]
