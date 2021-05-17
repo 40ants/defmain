@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-- [1 defmain ASDF System Details][f561]
+- [1 DEFMAIN ASDF System Details][f561]
 - [2 Reasoning][cffc]
 - [3 Installation][4fef]
 - [4 Usage][6b27]
@@ -15,7 +15,7 @@
 ###### \[in package DEFMAIN with nicknames DEFMAIN/DEFMAIN\]
 <a id='x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
 
-## 1 defmain ASDF System Details
+## 1 DEFMAIN ASDF System Details
 
 - Version: 0.11.0
 - Description: A wrapper around net.didierverna.clon which makes command line arguments parsing easier.
