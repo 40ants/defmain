@@ -2,6 +2,12 @@
  ChangeLog
 ===========
 
+0.12.0 (2021-06-05)
+===================
+
+* Added LispWorks support.
+* Program name now evaluated at runtime instead of a compile-time.
+
 0.11.0 (2021-05-08)
 ===================
 

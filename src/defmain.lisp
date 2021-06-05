@@ -387,6 +387,9 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 
 
 (defun get-program-name (symbol)
+  #+lispworks
+  (first system:*line-arguments-list*)
+  #-lispworks
   (let* ((package (symbol-package symbol))
          (package-name (string-downcase (package-name package)))
          (roswell-prefix "ros.script."))
@@ -618,9 +621,7 @@ name, if you are using Roswell. However, you can override it providing the
 PROGRAM-NAME argument.
 
  """
-  (let* ((program-name (or program-name
-                           (get-program-name name)))
-         (synopsis-args (make-synopsis-args args))
+  (let* ((synopsis-args (make-synopsis-args args))
          (synopsis-fields (make-synopsis-fields args))
          (docstring (when (typep (first body)
                                  'string)
@@ -689,14 +690,20 @@ PROGRAM-NAME argument.
                     ;; We need this to support usage of defmain
                     ;; in programs, built with plain asdf:make
                     ;; instead of roswell.
-                    (uiop:command-line-arguments)))))
+                    #-lispworks
+                    (uiop:command-line-arguments)
+                    #+lispworks
+                    (cdr system:*line-arguments-list*)))))
            (change-class synopsis
                          'cool-synopsis
                          :command ',(unless has-subcommand-p
                                       name))
-           (make-context
-            :cmdline (cons ,program-name argv)
-            :synopsis synopsis))
+           (let ((program-name ,(if program-name
+                                    program-name
+                                    `(get-program-name ',name))))
+             (make-context
+              :cmdline (cons program-name argv)
+              :synopsis synopsis)))
 
          (let ((%rest-arguments (remainder)))
            (declare (ignorable %rest-arguments))
