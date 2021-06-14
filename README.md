@@ -151,7 +151,7 @@ The main entry point for defining the main function for your program is the [`DE
        ...)
     ```
     
-    Also, we can pass `NIL`, to turn off short version for VERBOSE argument:
+    Also, we can pass `NIL`, to turn off short version for `VERBOSE` argument:
     
     ```
     (defmain (main) ((version "Print program version and exit")
