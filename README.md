@@ -17,7 +17,7 @@
 
 ## 1 DEFMAIN ASDF System Details
 
-- Version: 0.11.0
+- Version: 0.12.1
 - Description: A wrapper around net.didierverna.clon which makes command line arguments parsing easier.
 - Licence: BSD
 - Author: Alexander Artemenko
