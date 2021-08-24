@@ -637,13 +637,17 @@ PROGRAM-NAME argument.
            (when positional-bindings
              ;; We only need this function when there is one or
              ;; more positional bindings exist.
-             (list '(%pop-argument (name)
-                     "This local function is used to pop positional arguments from the command line."
-                     (unless %rest-arguments
-                       (check-type name symbol)
-                       (error 'argument-is-required-error
-                              :name name))
-                     (pop %rest-arguments)))))
+             '((%pop-argument (name)
+                "This local function is used to pop positional arguments from the command line."
+                (unless %rest-arguments
+                  (check-type name symbol)
+                  (error 'argument-is-required-error
+                         :name name))
+                (pop %rest-arguments)))))
+         (ignorable-forms
+           (loop for definition in local-functions
+                 for name = (car definition)
+                 collect `(declare (ignorable #',name))))
          ;; Here we'll store only parent variable names
          (argument-names (remove 'help
                                  (mapcar #'first
@@ -709,6 +713,8 @@ PROGRAM-NAME argument.
            (declare (ignorable %rest-arguments))
            
            (flet (,@local-functions)
+             ,@ignorable-forms
+             
              (let (,@bindings
                    ,@(when has-subcommand-p
                        `((,subcommand-was-called nil))))
