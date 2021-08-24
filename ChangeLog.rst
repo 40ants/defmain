@@ -2,6 +2,13 @@
  ChangeLog
 ===========
 
+0.12.1 (2021-08-24)
+===================
+
+* Added `(declare (ignorable %pop-argument))` to suppress a compiler `NOTE` under `SBCL`.
+
+  Thanks to Alessio Stalla!
+
 0.12.0 (2021-06-05)
 ===================
 
