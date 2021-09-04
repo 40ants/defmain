@@ -2,6 +2,12 @@
 
 # Changes
 
+<a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E13-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## 0.13.0
+
+* Moved to a new documentation rendering engine.
+
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E12-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.12.1

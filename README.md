@@ -95,7 +95,7 @@ With code providing the same functionality, but using raw
 ## Installation
 
 This system is available as part of the https://ultralisp.org distribution. Follow instruction
-on the site to setup the distribution, and then install [`defmain`][0bf9] system using Quicklisp client:
+on the site to setup the distribution, and then install [`defmain`][8f44] system using Quicklisp client:
 
 ```text
 (ql:quickload :defmain)
@@ -108,7 +108,7 @@ The main entry point for defining the main function for your program is the [`de
 
 <a id="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-### [macro](a559) `defmain:defmain` (name &key program-name) (&rest args) &body body
+### [macro](10d9) `defmain:defmain` (name &key program-name) (&rest args) &body body
 
 This macro let you to define a main function for a command-line program.
 
@@ -136,7 +136,7 @@ For example, here we have a conflict:
                  (verbose "Provide more detail on the output"))
    ...)
 ```
-But we can tell `defmain` ([`1`][8891] [`2`][0bf9]) to use `-V` option for verbose, instead of `-v`
+But we can tell `defmain` ([`1`][8891] [`2`][8f44]) to use `-V` option for verbose, instead of `-v`
 
 ```
 (defmain (main) ((version "Print program version and exit")
@@ -178,7 +178,7 @@ to define additional subcommands using [`defcommand`][7d7e] macro:
 
 <a id="x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-#### [macro](3688) `defmain:defcommand` (parent name) (&rest args) &body body
+#### [macro](9b2a) `defmain:defcommand` (parent name) (&rest args) &body body
 
 This macro is similar to [`defmain`][8891] macro in terms of arguments and body processing.
 
@@ -234,13 +234,13 @@ When writing more complex logic, these helpers could be useful:
 
 <a id="x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29"></a>
 
-#### [function](17ae) `defmain:print-help`
+#### [function](59ce) `defmain:print-help`
 
 Outputs to stdout a help about command line utility.
 
 <a id="x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29"></a>
 
-#### [function](57b4) `defmain:print-commands-help`
+#### [function](2f3b) `defmain:print-commands-help`
 
 Outputs information about supported subcommands.
 
@@ -248,7 +248,7 @@ It should be called from the function defined with [`defmain`][8891] macro.
 
 <a id="x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29"></a>
 
-#### [function](8660) `defmain:get-subcommand-name`
+#### [function](1a71) `defmain:get-subcommand-name`
 
 Returns a string with current subcommand's name.
 
@@ -256,7 +256,7 @@ It should be called from the function defined with [`defmain`][8891] macro.
 
 <a id="x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29"></a>
 
-#### [function](baee) `defmain:subcommand`
+#### [function](b2e3) `defmain:subcommand`
 
 Executes the current subcommand. It is called automatically at the end of the
 main body unless you call it manually.
@@ -302,17 +302,17 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 {100270C013}>) [fast-method]
 ```
 
-[0bf9]: #x-28-22defmain-22-20ASDF-2FSYSTEM-3ASYSTEM-29
+[8f44]: #x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [7d7e]: #x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
 [8891]: #x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
 [e834]: #x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29
 [a9ad]: https://40ants.com/defmain
 [26c5]: https://github.com/40ants/defmain
-[57b4]: https://github.com/40ants/defmain/blob/84381741d7323e30ed6bd314e8dd746efbffbae9/src/defmain.lisp#L481
-[8660]: https://github.com/40ants/defmain/blob/84381741d7323e30ed6bd314e8dd746efbffbae9/src/defmain.lisp#L488
-[baee]: https://github.com/40ants/defmain/blob/84381741d7323e30ed6bd314e8dd746efbffbae9/src/defmain.lisp#L495
-[a559]: https://github.com/40ants/defmain/blob/84381741d7323e30ed6bd314e8dd746efbffbae9/src/defmain.lisp#L588
-[3688]: https://github.com/40ants/defmain/blob/84381741d7323e30ed6bd314e8dd746efbffbae9/src/defmain.lisp#L827
-[17ae]: https://github.com/40ants/defmain/blob/84381741d7323e30ed6bd314e8dd746efbffbae9/src/defmain.lisp#L887
+[2f3b]: https://github.com/40ants/defmain/blob/c07ab6be2b9ff9e705467f52797869e70c9bd099/src/defmain.lisp#L482
+[1a71]: https://github.com/40ants/defmain/blob/c07ab6be2b9ff9e705467f52797869e70c9bd099/src/defmain.lisp#L489
+[b2e3]: https://github.com/40ants/defmain/blob/c07ab6be2b9ff9e705467f52797869e70c9bd099/src/defmain.lisp#L496
+[10d9]: https://github.com/40ants/defmain/blob/c07ab6be2b9ff9e705467f52797869e70c9bd099/src/defmain.lisp#L589
+[9b2a]: https://github.com/40ants/defmain/blob/c07ab6be2b9ff9e705467f52797869e70c9bd099/src/defmain.lisp#L828
+[59ce]: https://github.com/40ants/defmain/blob/c07ab6be2b9ff9e705467f52797869e70c9bd099/src/defmain.lisp#L888
 [defe]: https://github.com/40ants/defmain/issues
 [da87]: https://github.com/didierverna/clon
