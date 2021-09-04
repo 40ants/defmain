@@ -21,12 +21,16 @@
                 #:in-readtable)
   (:import-from #:pythonic-string-reader
                 #:pythonic-string-syntax)
+  (:import-from #:docs-config
+                #:docs-config)
   (:export #:defmain
            #:print-help
            #:subcommand
            #:defcommand
            #:print-commands-help
-           #:get-subcommand-name))
+           #:get-subcommand-name
+           #:@index
+           #:@readme))
 (in-package :defmain)
 
 (in-readtable pythonic-string-syntax)
@@ -53,6 +57,19 @@
   (@installation section)
   (@usage section)
   (@roadmap section))
+
+
+(40ants-doc:defsection-copy @readme @index)
+
+
+(defmethod docs-config ((system (eql (asdf:find-system "defmain"))))
+  ;; 40ANTS-DOC-THEME-40ANTS system will bring
+  ;; as dependency a full 40ANTS-DOC but we don't want
+  ;; unnecessary dependencies here:
+  (list :theme
+        (find-symbol "40ANTS-THEME"
+                     (find-package "40ANTS-DOC-THEME-40ANTS")))
+  (ql:quickload :40ants-doc-theme-40ants))
 
 
 (defsection @reasoning (:title "Reasoning")
