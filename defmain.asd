@@ -8,7 +8,8 @@
   :source-control (:git "https://github.com/40ants/defmain")
   :class :package-inferred-system
   :pathname "src"
-  :depends-on ("defmain/defmain")
+  :depends-on ("defmain/defmain"
+               "defmain/changelog")
   :in-order-to ((test-op (test-op defmain-test))))
 
 ;; To not get rid of banners like this, we need to load only core

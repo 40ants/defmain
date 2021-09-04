@@ -36,12 +36,8 @@
 (in-readtable pythonic-string-syntax)
 
 
-(defsection @index (:title "DEFMAIN - intuitive command line options parser for Common Lisp"
-                    :ignore-words ("VERBOSE"
-                                   "MAIN"
-                                   "SOME-VAR"))
-  (defmain system)
-  "
+(defparameter *badges*
+    "
 <table>
 <tr>
   <th>Tests:</th>
@@ -52,7 +48,19 @@
   <td><a style=\"border-bottom: none\" href=\"https://github.com/40ants/defmain/actions\"><img src=\"https://github-actions.40ants.com/40ants/defmain/matrix.svg?only=ci.linter\"></a></td>
 </tr>
 </table>
-"
+")
+
+(defsection @index (:title "DEFMAIN - intuitive command line options parser for Common Lisp"
+                    :ignore-words ("VERBOSE"
+                                   "MAIN"
+                                   "BSD"
+                                   "GIT"
+                                   "ROS"
+                                   "SCRIPT"
+                                   "THIRD-PART"
+                                   "SOME-VAR"))
+  (defmain system)
+  *badges*
   (@reasoning section)
   (@installation section)
   (@usage section)
@@ -66,10 +74,10 @@
   ;; 40ANTS-DOC-THEME-40ANTS system will bring
   ;; as dependency a full 40ANTS-DOC but we don't want
   ;; unnecessary dependencies here:
+  (ql:quickload :40ants-doc-theme-40ants)
   (list :theme
         (find-symbol "40ANTS-THEME"
-                     (find-package "40ANTS-DOC-THEME-40ANTS")))
-  (ql:quickload :40ants-doc-theme-40ants))
+                     (find-package "40ANTS-DOC-THEME-40ANTS"))))
 
 
 (defsection @reasoning (:title "Reasoning")
@@ -633,7 +641,7 @@ Arguments list of DEFMAIN macro might end with `&REST SOME-VAR`. In this case,
 all unprocessed command line arguments will be collected into the SOME-VAR list.
 
 By default program name, shown in the `--help`, will be the same as the name
-of the function or taken as a third part of the ROS.SCRIPT.THIRD-PART package
+of the function or taken as a third part of the `ROS.SCRIPT.THIRD-PART` package
 name, if you are using Roswell. However, you can override it providing the
 PROGRAM-NAME argument.
 
