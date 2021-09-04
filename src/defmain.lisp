@@ -36,7 +36,8 @@
 (in-readtable pythonic-string-syntax)
 
 
-(defparameter *badges*
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defparameter *badges*
     "
 <table>
 <tr>
@@ -48,7 +49,7 @@
   <td><a style=\"border-bottom: none\" href=\"https://github.com/40ants/defmain/actions\"><img src=\"https://github-actions.40ants.com/40ants/defmain/matrix.svg?only=ci.linter\"></a></td>
 </tr>
 </table>
-")
+"))
 
 (defsection @index (:title "DEFMAIN - intuitive command line options parser for Common Lisp"
                     :ignore-words ("VERBOSE"
