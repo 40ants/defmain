@@ -33,7 +33,7 @@ Thanks to Alessio Stalla!
 ### Backward incompatible change!
 
 Now the name of a function given to the
-[`defmain:defmain`][5e6b] macro, should be a list, because it
+[`defmain:defmain`][4130] macro, should be a list, because it
 can carry optional keyword arguments, such as
 `PROGRAM-NAME` argument.
 
@@ -109,7 +109,7 @@ qlot exec ros run -L sbcl -e '(asdf:make :work-hours)'
 ## 0.7.1
 
 Error `Undeclared free variable DEFMAIN/DEFMAIN:HELP-COMMANDS` was
-fixed for cases where there is no [`defmain:defcommand`][ab14] calls beside [`defmain:defmain`][5e6b].
+fixed for cases where there is no [`defmain:defcommand`][4b6c] calls beside [`defmain:defmain`][4130].
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -127,14 +127,14 @@ This solves issues in programs which use `(uiop:run-program ...)` or
 
 ## 0.6.1
 
-* Now function [`defmain:get-subcommand-name`][b4a1] is available in the main function
+* Now function [`defmain:get-subcommand-name`][86bc] is available in the main function
 if your specified `&SUBCOMMAND` as it's argument.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E6-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.6.0
 
-* Added support for nested commands defined with [`defmain:defcommand`][ab14] macro.
+* Added support for nested commands defined with [`defmain:defcommand`][4b6c] macro.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E5-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -146,7 +146,7 @@ if your specified `&SUBCOMMAND` as it's argument.
 
 ## 0.4.0
 
-* Now [`defmain:defmain`][5e6b] handles all unhandled conditions, prints a backtrace
+* Now [`defmain:defmain`][4130] handles all unhandled conditions, prints a backtrace
   and program exists with error code `1`.
 
 Previously, programs just started debugger and if built with `CCL` it
@@ -191,7 +191,7 @@ Also, you can pass `NIL` as a value to disable short name:
 
 ## 0.2.0
 
-* Added function [`defmain:print-help`][da64].
+* Added function [`defmain:print-help`][9b39].
 
 * Fixed handling of existing `help` option. Now you can redefine it
   to give another description.
@@ -212,12 +212,12 @@ Also, you can pass `NIL` as a value to disable short name:
   explanations.
 
 
-[ab14]: README.md#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
-[5e6b]: README.md#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
-[b4a1]: README.md#x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29
-[da64]: README.md#x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29
 [eeaa]: http://keepachangelog.com/
 [3f72]: https://40ants.com/ci/
+[4b6c]: https://40ants.com/defmain/#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
+[4130]: https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
+[86bc]: https://40ants.com/defmain/#x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29
+[9b39]: https://40ants.com/defmain/#x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29
 [795a]: https://github.com/roswell/roswell
 
 * * *

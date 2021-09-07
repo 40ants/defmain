@@ -40,7 +40,7 @@ Library [`net.didierverna.clon`][da87]
 very powerful, but too complicated to use in simple cases. This library
 provides a wrapper which will suite your needs in 80% cases.
 
-Compare this code, which uses [`defmain`][8891] macro:
+Compare this code, which uses [`defmain`][4130] macro:
 
 ```
 (defmain (main) ((debug "Show traceback instead of short message."
@@ -95,7 +95,7 @@ With code providing the same functionality, but using raw
 ## Installation
 
 This system is available as part of the https://ultralisp.org distribution. Follow instruction
-on the site to setup the distribution, and then install [`defmain`][8f44] system using Quicklisp client:
+on the site to setup the distribution, and then install [`defmain`][dc1a] system using Quicklisp client:
 
 ```text
 (ql:quickload :defmain)
@@ -104,11 +104,11 @@ on the site to setup the distribution, and then install [`defmain`][8f44] system
 
 ## Usage
 
-The main entry point for defining the main function for your program is the [`defmain`][8891] macro:
+The main entry point for defining the main function for your program is the [`defmain`][4130] macro:
 
 <a id="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-### [macro](3638) `defmain:defmain` (name &key program-name) (&rest args) &body body
+### [macro](0e8b) `defmain:defmain` (name &key program-name) (&rest args) &body body
 
 This macro let you to define a main function for a command-line program.
 
@@ -136,7 +136,7 @@ For example, here we have a conflict:
                  (verbose "Provide more detail on the output"))
    ...)
 ```
-But we can tell `defmain` ([`1`][8891] [`2`][8f44]) to use `-V` option for verbose, instead of `-v`
+But we can tell `defmain` ([`1`][4130] [`2`][dc1a]) to use `-V` option for verbose, instead of `-v`
 
 ```
 (defmain (main) ((version "Print program version and exit")
@@ -157,7 +157,7 @@ Also, you might want to specify a `DEFAULT` value for the argument or provide
 an environment variable name using `ENV-VAR`. The value will be take from the
 environment variable unless it was provided by the user on the command-line.
 
-Arguments list of [`defmain`][8891] macro might end with `&REST SOME-VAR`. In this case,
+Arguments list of [`defmain`][4130] macro might end with `&REST SOME-VAR`. In this case,
 all unprocessed command line arguments will be collected into the `SOME-VAR` list.
 
 By default program name, shown in the `--help`, will be the same as the name
@@ -173,14 +173,14 @@ name, if you are using Roswell. However, you can override it providing the
 
 Also, you might want to build a more complex command-line interface with subcommands.
 
-In this case, you need to use [`defmain`][8891] macro to define the main entry-point, and then
-to define additional subcommands using [`defcommand`][7d7e] macro:
+In this case, you need to use [`defmain`][4130] macro to define the main entry-point, and then
+to define additional subcommands using [`defcommand`][4b6c] macro:
 
 <a id="x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-#### [macro](3110) `defmain:defcommand` (parent name) (&rest args) &body body
+#### [macro](44a2) `defmain:defcommand` (parent name) (&rest args) &body body
 
-This macro is similar to [`defmain`][8891] macro in terms of arguments and body processing.
+This macro is similar to [`defmain`][4130] macro in terms of arguments and body processing.
 
 The only difference is that instead of the single name you have to provide a
 list of two names:
@@ -216,7 +216,7 @@ On command-line these arguments should preceed the subcommand's name
 By default, main command run's specified subcommand and exits, but you can use
 it as a decorator, to execute some common code before and after as subcommand.
 
-To run subcommand, execute [`subcommand`][e834] function:
+To run subcommand, execute [`subcommand`][98fc] function:
 
 ```
 (defmain (main) ((verbose "More detail in the output"))
@@ -234,34 +234,34 @@ When writing more complex logic, these helpers could be useful:
 
 <a id="x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29"></a>
 
-#### [function](a817) `defmain:print-help`
+#### [function](c2c6) `defmain:print-help`
 
 Outputs to stdout a help about command line utility.
 
 <a id="x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29"></a>
 
-#### [function](07ec) `defmain:print-commands-help`
+#### [function](9143) `defmain:print-commands-help`
 
 Outputs information about supported subcommands.
 
-It should be called from the function defined with [`defmain`][8891] macro.
+It should be called from the function defined with [`defmain`][4130] macro.
 
 <a id="x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29"></a>
 
-#### [function](ec9b) `defmain:get-subcommand-name`
+#### [function](2686) `defmain:get-subcommand-name`
 
 Returns a string with current subcommand's name.
 
-It should be called from the function defined with [`defmain`][8891] macro.
+It should be called from the function defined with [`defmain`][4130] macro.
 
 <a id="x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29"></a>
 
-#### [function](6c6a) `defmain:subcommand`
+#### [function](4b81) `defmain:subcommand`
 
 Executes the current subcommand. It is called automatically at the end of the
 main body unless you call it manually.
 
-It can be called from the function defined with [`defmain`][8891] macro.
+It can be called from the function defined with [`defmain`][4130] macro.
 
 <a id="x-28DEFMAIN-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -302,18 +302,18 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 {100270C013}>) [fast-method]
 ```
 
-[8f44]: #x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
-[7d7e]: #x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
-[8891]: #x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
-[e834]: #x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29
 [a9ad]: https://40ants.com/defmain
+[dc1a]: https://40ants.com/defmain/#x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
+[4b6c]: https://40ants.com/defmain/#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
+[4130]: https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
+[98fc]: https://40ants.com/defmain/#x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29
 [26c5]: https://github.com/40ants/defmain
-[07ec]: https://github.com/40ants/defmain/blob/e4618d083bdd682f650be56f8051f3c46caacd3a/src/defmain.lisp#L482
-[ec9b]: https://github.com/40ants/defmain/blob/e4618d083bdd682f650be56f8051f3c46caacd3a/src/defmain.lisp#L489
-[6c6a]: https://github.com/40ants/defmain/blob/e4618d083bdd682f650be56f8051f3c46caacd3a/src/defmain.lisp#L496
-[3638]: https://github.com/40ants/defmain/blob/e4618d083bdd682f650be56f8051f3c46caacd3a/src/defmain.lisp#L589
-[3110]: https://github.com/40ants/defmain/blob/e4618d083bdd682f650be56f8051f3c46caacd3a/src/defmain.lisp#L828
-[a817]: https://github.com/40ants/defmain/blob/e4618d083bdd682f650be56f8051f3c46caacd3a/src/defmain.lisp#L888
+[9143]: https://github.com/40ants/defmain/blob/b96e59f37ecccbfb901207f249f85989651b7642/src/defmain.lisp#L482
+[2686]: https://github.com/40ants/defmain/blob/b96e59f37ecccbfb901207f249f85989651b7642/src/defmain.lisp#L489
+[4b81]: https://github.com/40ants/defmain/blob/b96e59f37ecccbfb901207f249f85989651b7642/src/defmain.lisp#L496
+[0e8b]: https://github.com/40ants/defmain/blob/b96e59f37ecccbfb901207f249f85989651b7642/src/defmain.lisp#L589
+[44a2]: https://github.com/40ants/defmain/blob/b96e59f37ecccbfb901207f249f85989651b7642/src/defmain.lisp#L828
+[c2c6]: https://github.com/40ants/defmain/blob/b96e59f37ecccbfb901207f249f85989651b7642/src/defmain.lisp#L888
 [defe]: https://github.com/40ants/defmain/issues
 [da87]: https://github.com/didierverna/clon
 
