@@ -54,7 +54,7 @@ can carry optional keyword arguments, such as
   documentation builder.
 
 * Added github actions for building docs, linting and testing.
-  Using [`40ANTS-CI`][3f72] generator.
+  Using [40ANTS-CI][3f72] generator.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -165,7 +165,7 @@ Previously, programs just started debugger and if built with `CCL` it
 
 Also, you can pass `NIL` as a value to disable short name:
 
-  `lisp
+`lisp
   (defmain main ((verbose "Show more informaition"
                           :flag t) ;; by default -v will be used
                  (version "Show version"
@@ -208,7 +208,7 @@ Also, you can pass `NIL` as a value to disable short name:
 
 * Specify dates as `2017-04-19`.
 
-* Read [Keep`AC`hangelog.com][eeaa] for futher
+* Read [KeepAChangelog.com][eeaa] for futher
   explanations.
 
 
