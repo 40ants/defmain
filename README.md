@@ -108,7 +108,7 @@ The main entry point for defining the main function for your program is the [`de
 
 <a id="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-### [macro](5cdb) `defmain:defmain` (name &key program-name) (&rest args) &body body
+### [macro](1f63) `defmain:defmain` (name &key program-name) (&rest args) &body body
 
 This macro let you to define a main function for a command-line program.
 
@@ -178,7 +178,7 @@ to define additional subcommands using [`defcommand`][4b6c] macro:
 
 <a id="x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-#### [macro](e012) `defmain:defcommand` (parent name) (&rest args) &body body
+#### [macro](3bd1) `defmain:defcommand` (parent name) (&rest args) &body body
 
 This macro is similar to [`defmain`][4130] macro in terms of arguments and body processing.
 
@@ -234,13 +234,13 @@ When writing more complex logic, these helpers could be useful:
 
 <a id="x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29"></a>
 
-#### [function](0c4a) `defmain:print-help`
+#### [function](4ac5) `defmain:print-help`
 
 Outputs to stdout a help about command line utility.
 
 <a id="x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29"></a>
 
-#### [function](12a7) `defmain:print-commands-help`
+#### [function](e28b) `defmain:print-commands-help`
 
 Outputs information about supported subcommands.
 
@@ -248,7 +248,7 @@ It should be called from the function defined with [`defmain`][4130] macro.
 
 <a id="x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29"></a>
 
-#### [function](87e5) `defmain:get-subcommand-name`
+#### [function](9d49) `defmain:get-subcommand-name`
 
 Returns a string with current subcommand's name.
 
@@ -256,7 +256,7 @@ It should be called from the function defined with [`defmain`][4130] macro.
 
 <a id="x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29"></a>
 
-#### [function](40c4) `defmain:subcommand`
+#### [function](61c5) `defmain:subcommand`
 
 Executes the current subcommand. It is called automatically at the end of the
 main body unless you call it manually.
@@ -308,12 +308,12 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 [4130]: https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
 [98fc]: https://40ants.com/defmain/#x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29
 [26c5]: https://github.com/40ants/defmain
-[12a7]: https://github.com/40ants/defmain/blob/e377cac4e3d1733eb72279f31dfb7cf402cdc075/src/defmain.lisp#L482
-[87e5]: https://github.com/40ants/defmain/blob/e377cac4e3d1733eb72279f31dfb7cf402cdc075/src/defmain.lisp#L489
-[40c4]: https://github.com/40ants/defmain/blob/e377cac4e3d1733eb72279f31dfb7cf402cdc075/src/defmain.lisp#L496
-[5cdb]: https://github.com/40ants/defmain/blob/e377cac4e3d1733eb72279f31dfb7cf402cdc075/src/defmain.lisp#L589
-[e012]: https://github.com/40ants/defmain/blob/e377cac4e3d1733eb72279f31dfb7cf402cdc075/src/defmain.lisp#L828
-[0c4a]: https://github.com/40ants/defmain/blob/e377cac4e3d1733eb72279f31dfb7cf402cdc075/src/defmain.lisp#L888
+[e28b]: https://github.com/40ants/defmain/blob/b501c93b904a4f8b928b38f23baa3612d1dc46c0/src/defmain.lisp#L482
+[9d49]: https://github.com/40ants/defmain/blob/b501c93b904a4f8b928b38f23baa3612d1dc46c0/src/defmain.lisp#L489
+[61c5]: https://github.com/40ants/defmain/blob/b501c93b904a4f8b928b38f23baa3612d1dc46c0/src/defmain.lisp#L496
+[1f63]: https://github.com/40ants/defmain/blob/b501c93b904a4f8b928b38f23baa3612d1dc46c0/src/defmain.lisp#L589
+[3bd1]: https://github.com/40ants/defmain/blob/b501c93b904a4f8b928b38f23baa3612d1dc46c0/src/defmain.lisp#L828
+[4ac5]: https://github.com/40ants/defmain/blob/b501c93b904a4f8b928b38f23baa3612d1dc46c0/src/defmain.lisp#L888
 [defe]: https://github.com/40ants/defmain/issues
 [da87]: https://github.com/didierverna/clon
 
