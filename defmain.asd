@@ -8,7 +8,8 @@
   :source-control (:git "https://github.com/40ants/defmain")
   :class :package-inferred-system
   :pathname "src"
-  :depends-on ("defmain/defmain"
+  :depends-on ("uiop"
+               "defmain/defmain"
                "defmain/changelog")
   :in-order-to ((test-op (test-op defmain-test))))
 
