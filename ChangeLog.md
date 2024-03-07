@@ -21,7 +21,6 @@ Thanks to Alessio Stalla!
 ## 0.12.0
 
 * Added LispWorks support.
-
 * Program name now evaluated at runtime instead of a compile-time.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E11-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
@@ -43,7 +42,6 @@ can carry optional keyword arguments, such as
 
 * Fixed subcommands for the case when a program was
   compiled using `ASDF:MAKE`.
-
 * Added more examples and improved documentation!
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E10-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
@@ -52,7 +50,6 @@ can carry optional keyword arguments, such as
 
 * Moved documentation from reStructured readme to `40ANTS-DOC`
   documentation builder.
-
 * Added github actions for building docs, linting and testing.
   Using [40ANTS-CI][3f72] generator.
 
@@ -61,9 +58,7 @@ can carry optional keyword arguments, such as
 ## 0.9.1
 
 * Fixed work under `ABCL` and probably `CMUCL`.
-
 * Help commands now exit with 0 status code.
-
 * Fixed annoying banner about missing `CC` env variable.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
@@ -94,7 +89,6 @@ qlot exec ros run -L sbcl -e '(asdf:make :work-hours)'
 ## 0.8.0
 
 * Added support for positional arguments.
-
 * Fixed issue of catching signals not inherited  `error` and
   handling them as errors by printing traceback and quitting.
 
@@ -181,7 +175,6 @@ Also, you can pass `NIL` as a value to disable short name:
 * Fixed a way how `--help` option is processed. Now, this argument
   can be redefined by user, for example, to give this option another
   description.
-
 * Now, if `:default "some string"` is given for option, then it will
   be parsed as string. Previously, `lispobj` type was used to parse
   value, and there were problems when you tried to pass as a value
@@ -192,7 +185,6 @@ Also, you can pass `NIL` as a value to disable short name:
 ## 0.2.0
 
 * Added function [`defmain:print-help`][9b39].
-
 * Fixed handling of existing `help` option. Now you can redefine it
   to give another description.
 
@@ -201,13 +193,9 @@ Also, you can pass `NIL` as a value to disable short name:
 ## 0.1.0
 
 * Number features here.
-
 * Like that.
-
 * Add new versions to the top.
-
 * Specify dates as `2017-04-19`.
-
 * Read [KeepAChangelog.com][eeaa] for futher
   explanations.
 

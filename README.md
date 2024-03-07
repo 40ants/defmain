@@ -7,18 +7,13 @@
 ## DEFMAIN ASDF System Details
 
 * Version: 0.12.1
-
 * Description: A wrapper around net.didierverna.clon which makes command line arguments parsing easier.
-
 * Licence: `BSD`
-
 * Author: Alexander Artemenko
-
 * Homepage: [https://40ants.com/defmain][a9ad]
-
 * Bug tracker: [https://github.com/40ants/defmain/issues][defe]
-
 * Source control: [GIT][26c5]
+* Depends on: [40ants-doc][2c00], [alexandria][8236], [cl-inflector][0b66], [cl-strings][2ecb], [docs-config][ce67], [named-readtables][d0a9], [net.didierverna.clon.core][47d6], [pythonic-string-reader][c01d], [uiop][5274]
 
 
 <table>
@@ -108,7 +103,7 @@ The main entry point for defining the main function for your program is the [`de
 
 <a id="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-### [macro](2964) `defmain:defmain` (name &key program-name) (&rest args) &body body
+### [macro](134f) `defmain:defmain` (name &key program-name) (&rest args) &body body
 
 This macro let you to define a main function for a command-line program.
 
@@ -178,7 +173,7 @@ to define additional subcommands using [`defcommand`][4b6c] macro:
 
 <a id="x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"></a>
 
-#### [macro](171f) `defmain:defcommand` (parent name) (&rest args) &body body
+#### [macro](94c8) `defmain:defcommand` (parent name) (&rest args) &body body
 
 This macro is similar to [`defmain`][4130] macro in terms of arguments and body processing.
 
@@ -187,7 +182,6 @@ list of two names:
 
 * First element should be the name of the parent function.
   It can be either a main entry-point or other subcommand.
-
 * Second element is a symbol to name the subcommand.
 
 Here is an example with of a program with two subcommands.
@@ -234,13 +228,13 @@ When writing more complex logic, these helpers could be useful:
 
 <a id="x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29"></a>
 
-#### [function](a4c7) `defmain:print-help`
+#### [function](10b9) `defmain:print-help`
 
 Outputs to stdout a help about command line utility.
 
 <a id="x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29"></a>
 
-#### [function](5732) `defmain:print-commands-help`
+#### [function](1cd9) `defmain:print-commands-help`
 
 Outputs information about supported subcommands.
 
@@ -248,7 +242,7 @@ It should be called from the function defined with [`defmain`][4130] macro.
 
 <a id="x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29"></a>
 
-#### [function](36dd) `defmain:get-subcommand-name`
+#### [function](95b2) `defmain:get-subcommand-name`
 
 Returns a string with current subcommand's name.
 
@@ -256,7 +250,7 @@ It should be called from the function defined with [`defmain`][4130] macro.
 
 <a id="x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29"></a>
 
-#### [function](f2ab) `defmain:subcommand`
+#### [function](aa7a) `defmain:subcommand`
 
 Executes the current subcommand. It is called automatically at the end of the
 main body unless you call it manually.
@@ -268,9 +262,7 @@ It can be called from the function defined with [`defmain`][4130] macro.
 ## Roadmap
 
 * Make better support for integer arguments.
-
 * Support more types of arguments, like filepathes and enums.
-
 * Raise error when two short options are identical during
   macro-expansion, not during runtime. Right now the `clon`
   checks this during runtime:
@@ -308,14 +300,23 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
 [4130]: https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29
 [98fc]: https://40ants.com/defmain/#x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29
 [26c5]: https://github.com/40ants/defmain
-[5732]: https://github.com/40ants/defmain/blob/6345393bacc05663a60a6617aa715a44a91bae2b/src/defmain.lisp#L482
-[36dd]: https://github.com/40ants/defmain/blob/6345393bacc05663a60a6617aa715a44a91bae2b/src/defmain.lisp#L489
-[f2ab]: https://github.com/40ants/defmain/blob/6345393bacc05663a60a6617aa715a44a91bae2b/src/defmain.lisp#L496
-[2964]: https://github.com/40ants/defmain/blob/6345393bacc05663a60a6617aa715a44a91bae2b/src/defmain.lisp#L589
-[171f]: https://github.com/40ants/defmain/blob/6345393bacc05663a60a6617aa715a44a91bae2b/src/defmain.lisp#L828
-[a4c7]: https://github.com/40ants/defmain/blob/6345393bacc05663a60a6617aa715a44a91bae2b/src/defmain.lisp#L888
+[1cd9]: https://github.com/40ants/defmain/blob/109a771b1ab4804d87f7b7259b0b20cd4cecc5e2/src/defmain.lisp#L482
+[95b2]: https://github.com/40ants/defmain/blob/109a771b1ab4804d87f7b7259b0b20cd4cecc5e2/src/defmain.lisp#L489
+[aa7a]: https://github.com/40ants/defmain/blob/109a771b1ab4804d87f7b7259b0b20cd4cecc5e2/src/defmain.lisp#L496
+[134f]: https://github.com/40ants/defmain/blob/109a771b1ab4804d87f7b7259b0b20cd4cecc5e2/src/defmain.lisp#L589
+[94c8]: https://github.com/40ants/defmain/blob/109a771b1ab4804d87f7b7259b0b20cd4cecc5e2/src/defmain.lisp#L828
+[10b9]: https://github.com/40ants/defmain/blob/109a771b1ab4804d87f7b7259b0b20cd4cecc5e2/src/defmain.lisp#L888
 [defe]: https://github.com/40ants/defmain/issues
 [da87]: https://github.com/didierverna/clon
+[2c00]: https://quickdocs.org/40ants-doc
+[8236]: https://quickdocs.org/alexandria
+[0b66]: https://quickdocs.org/cl-inflector
+[2ecb]: https://quickdocs.org/cl-strings
+[ce67]: https://quickdocs.org/docs-config
+[d0a9]: https://quickdocs.org/named-readtables
+[47d6]: https://quickdocs.org/net.didierverna.clon.core
+[c01d]: https://quickdocs.org/pythonic-string-reader
+[5274]: https://quickdocs.org/uiop
 
 * * *
 ###### [generated by [40ANTS-DOC](https://40ants.com/doc/)]
