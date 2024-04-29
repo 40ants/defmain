@@ -1,0 +1,198 @@
+<html lang=en>
+ <head>
+  <meta charset=UTF-8><meta name=viewport
+      content="width=device-width, initial-scale=1">
+  <title>ChangeLog</title>
+  <link rel=alternate
+        href=https://40ants.com/defmain/changelog.xml
+        type=application/rss+xml>
+  <link rel=stylesheet type=text/css
+        href=../theme.css>
+  <script type=text/javascript src=../jquery.js></script>
+  <script type=text/javascript src=../toc.js></script>
+  <link rel=stylesheet type=text/css
+        href=../highlight.min.css>
+  <script type=text/javascript
+          src=../highlight.min.js></script>
+  <script type=text/javascript>hljs.highlightAll();</script>
+  <script type=text/javascript>
+             MathJax = {
+               tex: {
+                 inlineMath: [['$','$']],
+                 processEscapes: true
+               }
+             };
+        </script>
+  <script type=text/javascript
+          src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js></script>
+  <script type=text/javascript>$(document).ready(function() {$('a:has(img)').css('border-bottom', 'none')})</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL71WXK73K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FL71WXK73K');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(42462884, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/42462884" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+ </head>
+ <body>
+  <div class=page><a id=fork-me href=https://github.com/40ants/defmain>Fork me on GitHub</a>
+   <div class=navbar>
+    <div class=navbar-inner>
+     <a class=brand href="/">
+      <img class=logo
+           src=https://40ants.com/img/logo.svg></a>
+     <ul class=nav>
+      <li><a href=/about.html>Who We Are</a>
+      <li><a href=https://gitter.im/40ants/team>Chat With Us</a>
+      <li><a href=/tips.html>Lisp Tips</a>
+      <li><a href=/projects.html>Our Projects</a>
+     </ul>
+    </div>
+   </div>
+   <input type=checkbox id=sidebar-check>
+   <label for=sidebar-check>
+    <div id=sidebar-trigger>
+     <span></span><span></span><span></span>
+    </div></label><div class=sidebar><div class=header><form class=search method=GET
+      action="../search/">
+      <input type=text name=q>
+      <input type=submit value=Search><span id=search-progress></span>
+     </form>
+    </div><div class=content><div class=page-toc><ul><li><p><a href="../#x-28DEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="../" data-node="x-28DEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">DEFMAIN - intuitive command line options parser for Common Lisp</a></p><ul><li><p><a href="../#defmain-asdf-system-details" data-document="../" data-node="defmain-asdf-system-details">DEFMAIN ASDF System Details</a></p></li><li><p><a href="../#x-28DEFMAIN-3A-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="../" data-node="x-28DEFMAIN-3A-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Reasoning</a></p></li><li><p><a href="../#x-28DEFMAIN-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="../" data-node="x-28DEFMAIN-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Installation</a></p></li><li><p><a href="../#x-28DEFMAIN-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="../" data-node="x-28DEFMAIN-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Usage</a></p><ul><li><p><a href="../#x-28DEFMAIN-3A-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="../" data-node="x-28DEFMAIN-3A-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Subcommands</a></p></li><li><p><a href="../#x-28DEFMAIN-3A-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="../" data-node="x-28DEFMAIN-3A-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Helpers</a></p></li></ul></li><li><p><a href="../#x-28DEFMAIN-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="../" data-node="x-28DEFMAIN-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Roadmap</a></p></li></ul></li><li><p><a href="#x-28DEFMAIN-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">ChangeLog</a></p></li></ul>
+     </div>
+    </div><div class=footer>
+     <a href=https://40ants.com/doc>[generated by 40ANTS-DOC]</a>
+    </div>
+   </div><div class=content role=main><h1>ChangeLog<a class=rss-icon href=https://40ants.com/defmain/changelog.xml></a></h1><h2>0.13.1 (2024-04-29)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E13-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E13-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Removed unnecessary text &quot;Here is a list of all supported commands&quot; from the help message of a command having subcommands.</p></li></ul><h2>0.13.0 (2021-09-04)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E13-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E13-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Moved to a new documentation rendering engine.</p></li></ul><h2>0.12.1 (2021-08-24)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E12-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E12-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Added <code>(declare (ignorable %pop-argument))</code> to suppress a compiler <code>NOTE</code> under <code>SBCL</code>.</p></li></ul><p>Thanks to Alessio Stalla!</p><h2>0.12.0 (2021-06-05)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E12-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E12-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Added LispWorks support.</p></li><li><p>Program name now evaluated at runtime instead of a compile-time.</p></li></ul><h2>0.11.0 (2021-05-08)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E11-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E11-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><h3 id="backward-incompatible-change">Backward incompatible change!</h3><p>Now the name of a function given to the
+<a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain:defmain</code></a> macro, should be a list, because it
+can carry optional keyword arguments, such as
+<code>PROGRAM-NAME</code> argument.</p><h3 id="other-changes">Other changes</h3><ul><li><p>Fixed subcommands for the case when a program was
+  compiled using <code>ASDF:MAKE</code>.</p></li><li><p>Added more examples and improved documentation!</p></li></ul><h2>0.10.0 (2021-04-25)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E10-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E10-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Moved documentation from reStructured readme to <code>40ANTS-DOC</code>
+  documentation builder.</p></li><li><p>Added github actions for building docs, linting and testing.
+  Using <a href="https://40ants.com/ci/">40ANTS-CI</a> generator.</p></li></ul><h2>0.9.1 (2021-01-27)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Fixed work under <code>ABCL</code> and probably <code>CMUCL</code>.</p></li><li><p>Help commands now exit with 0 status code.</p></li><li><p>Fixed annoying banner about missing <code>CC</code> env variable.</p></li></ul><h2>0.9.0 (2018-12-07)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Added support for programs, built with <code>ASDF:MAKE</code>.</p></li></ul><p>Previously, only <a href="https://github.com/roswell/roswell">roswell</a> was supported, but now
+you can define your system as:</p><pre><code class="lisp">
+(defsystem work-hours
+  :class :package-inferred-system
+  :build-operation &quot;program-op&quot;
+  :build-pathname &quot;work-hours&quot;
+  :entry-point &quot;work-hours/main:main&quot;
+  :depends-on (&quot;work-hours/main&quot;))</code></pre><p>And then call in the command line something like:</p><pre><code class="bash">qlot exec ros run -L sbcl -e '(asdf:make :work-hours)'</code></pre><h2>0.8.0 (2018-10-15)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E8-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E8-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Added support for positional arguments.</p></li><li><p>Fixed issue of catching signals not inherited  <code>error</code> and
+  handling them as errors by printing traceback and quitting.</p></li></ul><h2>0.7.2 (2018-07-14)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E2-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E2-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Added <code>Ctrl-C</code> handling. However seems it does not work for <code>CCL</code> :(</p></li></ul><h2>0.7.1 (2018-06-15)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>Error <code>Undeclared free variable DEFMAIN/DEFMAIN:HELP-COMMANDS</code> was
+fixed for cases where there is no <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain:defcommand</code></a> calls beside <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain:defmain</code></a>.</p><h2>0.7.0 (2018-06-13)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>Defmain macro now restores temporary pathnames inside of <code>cl-fad</code> and
+<code>uiop</code> packages by setting <code>logical-pathname-translations</code> for
+<code>&quot;TEMPORARY-FILES&quot;</code> and by calling
+<code>(uiop:setup-temporary-directory)</code>.</p><p>This solves issues in programs which use <code>(uiop:run-program ...)</code> or
+<code>(cl-fad:with-output-to-temporary-file ...)</code> for example.</p><h2>0.6.1 (2018-06-08)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E6-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E6-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Now function <a href="https://40ants.com/defmain/#x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29"><code>defmain:get-subcommand-name</code></a> is available in the main function
+if your specified <code>&amp;SUBCOMMAND</code> as it's argument.</p></li></ul><h2>0.6.0 (2018-06-07)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E6-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E6-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Added support for nested commands defined with <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain:defcommand</code></a> macro.</p></li></ul><h2>0.5.0 (2018-06-02)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E5-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E5-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>System was made a <code>package-inferred</code> and now uses Rove for tests.</p></li></ul><h2>0.4.0 (2018-05-18)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E4-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E4-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Now <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain:defmain</code></a> handles all unhandled conditions, prints a backtrace
+  and program exists with error code <code>1</code>.</p></li></ul><p>Previously, programs just started debugger and if built with <code>CCL</code> it
+  was impossible to interrupt it.
+* Now it is possible to overwrite a short name of a parameter.
+  For example:</p><p><code>lisp
+  (defmain main ((verbose &quot;Show more informaition&quot;
+                          :flag t) ;; by default -v will be used
+                 (version &quot;Show version&quot;
+                          :flag t
+                          :short &quot;V&quot;))
+    ...)
+</code></p><p>Also, you can pass <code>NIL</code> as a value to disable short name:</p><p><code>lisp
+  (defmain main ((verbose &quot;Show more informaition&quot;
+                          :flag t) ;; by default -v will be used
+                 (version &quot;Show version&quot;
+                          :flag t
+                          :short &quot;V&quot;))
+    ...)
+</code></p><h2>0.3.0 (2018-05-12)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E3-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E3-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Fixed a way how <code>--help</code> option is processed. Now, this argument
+  can be redefined by user, for example, to give this option another
+  description.</p></li><li><p>Now, if <code>:default &quot;some string&quot;</code> is given for option, then it will
+  be parsed as string. Previously, <code>lispobj</code> type was used to parse
+  value, and there were problems when you tried to pass as a value
+  string with a colon, like some <code>URL</code>.</p></li></ul><h2>0.2.0 (2018-02-09)<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E2-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E2-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Added function <a href="https://40ants.com/defmain/#x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29"><code>defmain:print-help</code></a>.</p></li><li><p>Fixed handling of existing <code>help</code> option. Now you can redefine it
+  to give another description.</p></li></ul><h2>0.1.0<a class=header-link
+     href=#x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E1-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E1-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Number features here.</p></li><li><p>Like that.</p></li><li><p>Add new versions to the top.</p></li><li><p>Specify dates as <code>2017-04-19</code>.</p></li><li><p>Read <a href="http://keepachangelog.com/">KeepAChangelog.com</a> for futher
+  explanations.</p></li></ul>
+   </div><div class=footer>
+    <hr class=separator>
+    <p class=fineprint>Created with passion by <em>40Ants</em><a class=lisp-logo
+     href="http://lisp-lang.org/">
+      <img
+           src=https://40ants.com/img/made-with-lisp.svg></a>
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,237 @@
+<html lang=en>
+ <head>
+  <meta charset=UTF-8><meta name=viewport
+      content="width=device-width, initial-scale=1">
+  <title>DEFMAIN - intuitive command line options parser for Common Lisp</title>
+  <link rel=alternate
+        href=https://40ants.com/defmain/changelog.xml
+        type=application/rss+xml>
+  <link rel=stylesheet type=text/css
+        href=theme.css>
+  <script type=text/javascript src=jquery.js></script>
+  <script type=text/javascript src=toc.js></script>
+  <link rel=stylesheet type=text/css
+        href=highlight.min.css>
+  <script type=text/javascript src=highlight.min.js></script>
+  <script type=text/javascript>hljs.highlightAll();</script>
+  <script type=text/javascript>
+             MathJax = {
+               tex: {
+                 inlineMath: [['$','$']],
+                 processEscapes: true
+               }
+             };
+        </script>
+  <script type=text/javascript
+          src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js></script>
+  <script type=text/javascript>$(document).ready(function() {$('a:has(img)').css('border-bottom', 'none')})</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL71WXK73K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FL71WXK73K');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(42462884, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/42462884" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+ </head>
+ <body>
+  <div class=page><a id=fork-me href=https://github.com/40ants/defmain>Fork me on GitHub</a>
+   <div class=navbar>
+    <div class=navbar-inner>
+     <a class=brand href="/">
+      <img class=logo
+           src=https://40ants.com/img/logo.svg></a>
+     <ul class=nav>
+      <li><a href=/about.html>Who We Are</a>
+      <li><a href=https://gitter.im/40ants/team>Chat With Us</a>
+      <li><a href=/tips.html>Lisp Tips</a>
+      <li><a href=/projects.html>Our Projects</a>
+     </ul>
+    </div>
+   </div>
+   <input type=checkbox id=sidebar-check>
+   <label for=sidebar-check>
+    <div id=sidebar-trigger>
+     <span></span><span></span><span></span>
+    </div></label><div class=sidebar><div class=header><form class=search method=GET action="search/">
+      <input type=text name=q>
+      <input type=submit value=Search><span id=search-progress></span>
+     </form>
+    </div><div class=content><div class=page-toc><ul><li><p><a href="#x-28DEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">DEFMAIN - intuitive command line options parser for Common Lisp</a></p><ul><li><p><a href="#defmain-asdf-system-details" data-document="" data-node="defmain-asdf-system-details">DEFMAIN ASDF System Details</a></p></li><li><p><a href="#x-28DEFMAIN-3A-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-3A-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Reasoning</a></p></li><li><p><a href="#x-28DEFMAIN-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Installation</a></p></li><li><p><a href="#x-28DEFMAIN-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Usage</a></p><ul><li><p><a href="#x-28DEFMAIN-3A-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-3A-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Subcommands</a></p></li><li><p><a href="#x-28DEFMAIN-3A-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-3A-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Helpers</a></p></li></ul></li><li><p><a href="#x-28DEFMAIN-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DEFMAIN-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Roadmap</a></p></li></ul></li><li><p><a href="changelog/#x-28DEFMAIN-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="changelog/" data-node="x-28DEFMAIN-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">ChangeLog</a></p></li></ul>
+     </div>
+    </div><div class=footer>
+     <a href=https://40ants.com/doc>[generated by 40ANTS-DOC]</a>
+    </div>
+   </div><div class=content role=main><h1>DEFMAIN - intuitive command line options parser for Common Lisp<a class=header-link
+     href=#x-28DEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h1><h2 id="defmain-asdf-system-details">DEFMAIN ASDF System Details</h2><ul><li><p>Version: 0.12.1</p></li><li><p>Description: A wrapper around net.didierverna.clon which makes command line arguments parsing easier.</p></li><li><p>Licence: <code>BSD</code></p></li><li><p>Author: Alexander Artemenko</p></li><li><p>Homepage: <a href="https://40ants.com/defmain">https://40ants.com/defmain</a></p></li><li><p>Bug tracker: <a href="https://github.com/40ants/defmain/issues">https://github.com/40ants/defmain/issues</a></p></li><li><p>Source control: <a href="https://github.com/40ants/defmain">GIT</a></p></li><li><p>Depends on: <a href="https://quickdocs.org/40ants-doc">40ants-doc</a>, <a href="https://quickdocs.org/alexandria">alexandria</a>, <a href="https://quickdocs.org/cl-inflector">cl-inflector</a>, <a href="https://quickdocs.org/cl-strings">cl-strings</a>, <a href="https://quickdocs.org/docs-config">docs-config</a>, <a href="https://quickdocs.org/named-readtables">named-readtables</a>, <a href="https://quickdocs.org/net.didierverna.clon.core">net.didierverna.clon.core</a>, <a href="https://quickdocs.org/pythonic-string-reader">pythonic-string-reader</a>, <a href="https://quickdocs.org/uiop">uiop</a></p></li></ul><table>
+<tr>
+  <th>Tests:</th>
+  <td><a style="border-bottom: none" href="https://github.com/40ants/defmain/actions"><img src="https://github-actions.40ants.com/40ants/defmain/matrix.svg?only=ci.run-tests"></a></td>
+</tr>
+<tr>
+  <th>Linter:</th>
+  <td><a style="border-bottom: none" href="https://github.com/40ants/defmain/actions"><img src="https://github-actions.40ants.com/40ants/defmain/matrix.svg?only=ci.linter"></a></td>
+</tr>
+</table><h2>Reasoning<a class=header-link
+     href=#x-28DEFMAIN-3A-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-3A-3A-40REASONING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>Library <a href="https://github.com/didierverna/clon"><code>net.didierverna.clon</code></a>
+very powerful, but too complicated to use in simple cases. This library
+provides a wrapper which will suite your needs in 80% cases.</p><p>Compare this code, which uses <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro:</p><pre><code class="">(defmain (main) ((debug &quot;Show traceback instead of short message.&quot;
+                        :flag t)
+                 (log   &quot;Filename to write log to.&quot;)
+                 (token &quot;GitHub personal access token.&quot;
+                        :env-var &quot;TOKEN&quot;)
+                 &amp;rest repositories)
+  &quot;Utility to analyze github forks.&quot;
+
+   ;; Making real work
+  (loop for reporitory in repositories
+        do (analyze repository
+                    :log log
+                    :debug debug
+                    :token token)))</code></pre><p>With code providing the same functionality, but using raw
+<code>net.didierverna.clon</code> system:</p><pre><code class="">(net.didierverna.clon:defsynopsis (:postfix &quot;REPOSITORY&quot;)
+  (text :contents &quot;This utility builds a report about all non-merged commits for any github repository. Just give some repository name like \&quot;antirez/redis\&quot; as an argument and pipe stdout to some file.&quot;)
+  (flag :short-name &quot;h&quot; :long-name &quot;help&quot;
+        :description &quot;Print this help and exit.&quot;)
+  (flag :short-name &quot;v&quot; :long-name &quot;version&quot;
+        :description &quot;Print version number and exit.&quot;)
+  (flag :long-name &quot;debug&quot;
+        :description &quot;Show traceback instead of short message.&quot;)
+  (stropt :short-name &quot;l&quot; :long-name &quot;log&quot;
+          :description &quot;Filename to write log to.&quot;)
+  (stropt :short-name &quot;t&quot; :long-name &quot;token&quot;
+          :env-var &quot;TOKEN&quot;
+          :description &quot;GitHub personal access token.&quot;))
+
+(defun main (&amp;rest argv)
+  (declare (ignorable argv))
+  (net.didierverna.clon:make-context :cmdline (cons &quot;12forks&quot; argv))
+  (when (net.didierverna.clon:getopt :long-name &quot;help&quot;)
+    (net.didierverna.clon:help)
+    (net.didierverna.clon:exit))
+
+  ;; Making real work
+  (loop for reporitory in (remainder)
+        do (analyze repository
+                    :log (net.didierverna.clon:getopt :long-name &quot;log&quot;)
+                    :debug (net.didierverna.clon:getopt :long-name &quot;debug&quot;)
+                    :token (net.didierverna.clon:getopt :long-name &quot;token&quot;))))</code></pre><h2>Installation<a class=header-link
+     href=#x-28DEFMAIN-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>This system is available as part of the https://ultralisp.org distribution. Follow instruction
+on the site to setup the distribution, and then install <a href="https://40ants.com/defmain/#x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29" data-document="https://40ants.com/defmain/" data-node="x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>defmain</code></a> system using Quicklisp client:</p><pre><code class="text">(ql:quickload :defmain)
+</code></pre><h2>Usage<a class=header-link
+     href=#x-28DEFMAIN-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>The main entry point for defining the main function for your program is the <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href=https://github.com/40ants/defmain/blob/2cf76d5c86d8288c64ceab3d62ffe4ce34e4f765/src/defmain.lisp#L588>macro</a><div class=reference-object><div class=object-name><a href=#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 id=x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29>defmain:defmain</a></div><div class=object-args><span class=locative-args>(name &amp;key program-name) (&amp;rest args) &amp;body body</span></div></div><a class=bullet-link href=#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29></a></div><div class=bullet-content><p>This macro let you to define a main function for a command-line program.</p><p>Usually the <code>NAME</code> argument will be just <code>MAIN</code>. This name will be bound
+to a function which will process arguments and execute the <code>BODY</code>.</p><p><code>ARGS</code> should contain an arguments definition. Each definition is a list of the form:</p><pre><code class="text">(NAME DESCRIPTION &amp;KEY FLAG ENV-VAR SHORT DEFAULT)
+</code></pre><p>Argument's <code>NAME</code> should be a symbol. It names a variable which will be bound during
+the <code>BODY</code> execution. Also, this name is lowercased and used to form a <code>--long</code>
+command line argument.</p><p>The lowercased first letter of the <code>NAME</code> is used as a short version of the argument,
+like <code>-l</code>. But sometimes you might encounter duplication errors when having
+a few arguments starting from the same letter. In this case provide <code>SHORT</code> option,
+to override the letter, used for the short option.</p><p>For example, here we have a conflict:</p><pre><code class="">(defmain (main) ((version &quot;Print program version and exit&quot;)
+                 (verbose &quot;Provide more detail on the output&quot;))
+   ...)</code></pre><p>But we can tell <code>defmain</code> (<a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>1</code></a> <a href="https://40ants.com/defmain/#x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29" data-document="https://40ants.com/defmain/" data-node="x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>2</code></a>) to use <code>-V</code> option for verbose, instead of <code>-v</code></p><pre><code class="">(defmain (main) ((version &quot;Print program version and exit&quot;)
+                 (verbose &quot;Provide more detail on the output&quot; :short &quot;V&quot;))
+   ...)</code></pre><p>Also, we can pass <code>NIL</code>, to turn off short version for <code>VERBOSE</code> argument:</p><pre><code class="">(defmain (main) ((version &quot;Print program version and exit&quot;)
+                 (verbose &quot;Provide more detail on the output&quot; :short NIL))
+   ...)</code></pre><p>If some of your options are boolean, then give it a <code>:FLAG t</code> option,
+and a variable will become <code>T</code> if user provided this flag on the command-line.</p><p>Also, you might want to specify a <code>DEFAULT</code> value for the argument or provide
+an environment variable name using <code>ENV-VAR</code>. The value will be take from the
+environment variable unless it was provided by the user on the command-line.</p><p>Arguments list of <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro might end with <code>&amp;REST SOME-VAR</code>. In this case,
+all unprocessed command line arguments will be collected into the <code>SOME-VAR</code> list.</p><p>By default program name, shown in the <code>--help</code>, will be the same as the name
+of the function or taken as a third part of the <code>ROS.SCRIPT.THIRD-PART</code> package
+name, if you are using Roswell. However, you can override it providing the
+<code>PROGRAM-NAME</code> argument.</p><p> </p></div></div><h3>Subcommands<a class=header-link
+     href=#x-28DEFMAIN-3A-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-3A-3A-40SUBCOMMANDS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>Also, you might want to build a more complex command-line interface with subcommands.</p><p>In this case, you need to use <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro to define the main entry-point, and then
+to define additional subcommands using <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defcommand</code></a> macro:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href=https://github.com/40ants/defmain/blob/2cf76d5c86d8288c64ceab3d62ffe4ce34e4f765/src/defmain.lisp#L827>macro</a><div class=reference-object><div class=object-name><a href=#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 id=x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29>defmain:defcommand</a></div><div class=object-args><span class=locative-args>(parent name) (&amp;rest args) &amp;body body</span></div></div><a class=bullet-link href=#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29></a></div><div class=bullet-content><p>This macro is similar to <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro in terms of arguments and body processing.</p><p>The only difference is that instead of the single name you have to provide a
+list of two names:</p><ul><li><p>First element should be the name of the parent function.
+  It can be either a main entry-point or other subcommand.</p></li><li><p>Second element is a symbol to name the subcommand.</p></li></ul><p>Here is an example with of a program with two subcommands.
+Pay attention to the <code>MAIN</code> function's argument list.
+It ends with a special symbol <code>&amp;SUBCOMMAND</code>. It should be
+provided to let macro know there will be some subcommands
+defined later. </p><pre><code class="">(defmain (main) ((verbose &quot;More detail in the output&quot;)
+                 &amp;subcommand)
+   ...)
+
+(defcommand (main upload) ((upstream &quot;Repository name&quot;)
+                           (force &quot;Rewrite changes in case of conflict&quot;
+                                  :flag t))
+   ...)
+
+(defcommand (main sync) ()
+  &quot;Yet another subcommand.&quot;
+   ...)</code></pre><p>All arguments, specified for the <code>MAIN</code> function also bound for all it's subcommands.
+On command-line these arguments should preceed the subcommand's name</p><p>By default, main command run's specified subcommand and exits, but you can use
+it as a decorator, to execute some common code before and after as subcommand.</p><p>To run subcommand, execute <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29"><code>subcommand</code></a> function:</p><pre><code class="">(defmain (main) ((verbose &quot;More detail in the output&quot;))
+  (format t &quot;Before subcommand.~%&quot;)
+  (defmain:subcommand)
+  (format t &quot;After subcommand.~%&quot;))</code></pre><p>  </p></div></div><h3>Helpers<a class=header-link
+     href=#x-28DEFMAIN-3A-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-3A-3A-40HELPERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>When writing more complex logic, these helpers could be useful:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href=https://github.com/40ants/defmain/blob/2cf76d5c86d8288c64ceab3d62ffe4ce34e4f765/src/defmain.lisp#L887>function</a><div class=reference-object><div class=object-name><a href=#x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29 id=x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29>defmain:print-help</a></div></div><a class=bullet-link href=#x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29></a></div><div class=bullet-content><p>Outputs to stdout a help about command line utility.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href=https://github.com/40ants/defmain/blob/2cf76d5c86d8288c64ceab3d62ffe4ce34e4f765/src/defmain.lisp#L482>function</a><div class=reference-object><div class=object-name><a href=#x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29 id=x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29>defmain:print-commands-help</a></div></div><a class=bullet-link href=#x-28DEFMAIN-3APRINT-COMMANDS-HELP-20FUNCTION-29></a></div><div class=bullet-content><p>Outputs information about supported subcommands.</p><p>It should be called from the function defined with <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href=https://github.com/40ants/defmain/blob/2cf76d5c86d8288c64ceab3d62ffe4ce34e4f765/src/defmain.lisp#L489>function</a><div class=reference-object><div class=object-name><a href=#x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29 id=x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29>defmain:get-subcommand-name</a></div></div><a class=bullet-link href=#x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29></a></div><div class=bullet-content><p>Returns a string with current subcommand's name.</p><p>It should be called from the function defined with <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href=https://github.com/40ants/defmain/blob/2cf76d5c86d8288c64ceab3d62ffe4ce34e4f765/src/defmain.lisp#L496>function</a><div class=reference-object><div class=object-name><a href=#x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29 id=x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29>defmain:subcommand</a></div></div><a class=bullet-link href=#x-28DEFMAIN-3ASUBCOMMAND-20FUNCTION-29></a></div><div class=bullet-content><p>Executes the current subcommand. It is called automatically at the end of the
+main body unless you call it manually.</p><p>It can be called from the function defined with <a href="https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/defmain/" data-node="x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defmain</code></a> macro.</p></div></div><h2>Roadmap<a class=header-link
+     href=#x-28DEFMAIN-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DEFMAIN-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Make better support for integer arguments.</p></li><li><p>Support more types of arguments, like filepathes and enums.</p></li><li><p>Raise error when two short options are identical during
+  macro-expansion, not during runtime. Right now the <code>clon</code>
+  checks this during runtime:</p></li></ul><pre><code class="">Unhandled SIMPLE-ERROR in thread #&lt;SB-THREAD:THREAD &quot;main thread&quot;
+RUNNING {10005285B3}&gt;:
+
+Options #&lt;LISPOBJ {1002705593}&gt; and #&lt;STROPT {1002705C03}&gt;:
+indentical short name &quot;s&quot;.
+
+Backtrace for: #&lt;SB-THREAD:THREAD &quot;main thread&quot; RUNNING
+{10005285B3}&gt;
+0: (SB-DEBUG::DEBUGGER-DISABLED-HOOK #&lt;SIMPLE-ERROR &quot;Options ~A and
+~A: indentical short name ~S.&quot; {100277D8F3}&gt; #&lt;unused argument&gt;
+:QUIT T)
+1: (SB-DEBUG::RUN-HOOK SB-EXT:*INVOKE-DEBUGGER-HOOK* #&lt;SIMPLE-ERROR
+&quot;Options ~A and ~A: indentical short name ~S.&quot; {100277D8F3}&gt;)
+2: (INVOKE-DEBUGGER #&lt;SIMPLE-ERROR &quot;Options ~A and ~A: indentical short name ~S.&quot; {100277D8F3}&gt;)
+3: (ERROR &quot;Options ~A and ~A: indentical short name ~S.&quot;
+#&lt;NET.DIDIERVERNA.CLON::LISPOBJ {1002705593}&gt;
+#&lt;NET.DIDIERVERNA.CLON: :STROPT {1002705C03}&gt; &quot;s&quot;)
+4: ((:METHOD NET.DIDIERVERNA.CLON::CHECK-NAME-CLASH
+(NET.DIDIERVERNA.CLON::OPTION NET.DIDIERVERNA.CLON::OPTION))
+#&lt;NET.DIDIERVERNA.CLON::LISPOBJ {1002705593}&gt;
+#&lt;NET.DIDIERVERNA.CLON::STROPT {1002705C03}&gt;) [fast-method]
+5: ((:METHOD INITIALIZE-INSTANCE :AFTER
+(NET.DIDIERVERNA.CLON::CONTAINER)) #&lt;NET.DIDIERVERNA.CLON::SYNOPSIS
+{100270C013}&gt;) [fast-method]</code></pre>
+   </div><div class=footer>
+    <hr class=separator>
+    <p class=fineprint>Created with passion by <em>40Ants</em><a class=lisp-logo
+     href="http://lisp-lang.org/">
+      <img
+           src=https://40ants.com/img/made-with-lisp.svg></a>
+   </div>
+  </div>
+ </body>
+</html>

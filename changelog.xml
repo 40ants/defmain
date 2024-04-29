@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rss version="2.0">
+    <channel>
+        <title>defmain ChangeLog</title>
+        <link>https://40ants.com/defmain</link>
+        <generator>xml-emitter</generator>
+        <language>en-us</language>
+        <item>
+            <title>0.13.1  (2024-04-29)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Removed unnecessary text &amp;quot;Here is a list of all supported commands&amp;quot; from the help message of a command having subcommands.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Mon, 29 Apr 2024 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.13.0  (2021-09-04)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Moved to a new documentation rendering engine.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sat, 04 Sep 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.12.1  (2021-08-24)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added &lt;code&gt;(declare (ignorable %pop-argument))&lt;/code&gt; to suppress a compiler &lt;code&gt;NOTE&lt;/code&gt; under &lt;code&gt;SBCL&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Thanks to Alessio Stalla!&lt;/p&gt;</description>
+            <pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.12.0  (2021-06-05)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added LispWorks support.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Program name now evaluated at runtime instead of a compile-time.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sat, 05 Jun 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.11.0  (2021-05-08)</title>
+            <description>&lt;h1 id=&quot;backward-incompatible-change&quot;&gt;Backward incompatible change!&lt;/h1&gt;&lt;p&gt;Now the name of a function given to the
+&lt;a href=&quot;https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot; data-document=&quot;https://40ants.com/defmain/&quot; data-node=&quot;x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot;&gt;&lt;code&gt;defmain:defmain&lt;/code&gt;&lt;/a&gt; macro, should be a list, because it
+can carry optional keyword arguments, such as
+&lt;code&gt;PROGRAM-NAME&lt;/code&gt; argument.&lt;/p&gt;&lt;h1 id=&quot;other-changes&quot;&gt;Other changes&lt;/h1&gt;&lt;ul&gt;&lt;li&gt;&lt;p&gt;Fixed subcommands for the case when a program was
+  compiled using &lt;code&gt;ASDF:MAKE&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Added more examples and improved documentation!&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sat, 08 May 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.10.0  (2021-04-25)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Moved documentation from reStructured readme to &lt;code&gt;40ANTS-DOC&lt;/code&gt;
+  documentation builder.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Added github actions for building docs, linting and testing.
+  Using &lt;a href=&quot;https://40ants.com/ci/&quot;&gt;40ANTS-CI&lt;/a&gt; generator.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.9.1  (2021-01-27)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Fixed work under &lt;code&gt;ABCL&lt;/code&gt; and probably &lt;code&gt;CMUCL&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Help commands now exit with 0 status code.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Fixed annoying banner about missing &lt;code&gt;CC&lt;/code&gt; env variable.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.9.0  (2018-12-07)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added support for programs, built with &lt;code&gt;ASDF:MAKE&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Previously, only &lt;a href=&quot;https://github.com/roswell/roswell&quot;&gt;roswell&lt;/a&gt; was supported, but now
+you can define your system as:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;lisp&quot;&gt;
+(defsystem work-hours
+  :class :package-inferred-system
+  :build-operation &amp;quot;program-op&amp;quot;
+  :build-pathname &amp;quot;work-hours&amp;quot;
+  :entry-point &amp;quot;work-hours/main:main&amp;quot;
+  :depends-on (&amp;quot;work-hours/main&amp;quot;))&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And then call in the command line something like:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;qlot exec ros run -L sbcl -e &apos;(asdf:make :work-hours)&apos;&lt;/code&gt;&lt;/pre&gt;</description>
+            <pubDate>Fri, 07 Dec 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.8.0  (2018-10-15)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added support for positional arguments.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Fixed issue of catching signals not inherited  &lt;code&gt;error&lt;/code&gt; and
+  handling them as errors by printing traceback and quitting.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.7.2  (2018-07-14)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added &lt;code&gt;Ctrl-C&lt;/code&gt; handling. However seems it does not work for &lt;code&gt;CCL&lt;/code&gt; :(&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sat, 14 Jul 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.7.1  (2018-06-15)</title>
+            <description>&lt;p&gt;Error &lt;code&gt;Undeclared free variable DEFMAIN/DEFMAIN:HELP-COMMANDS&lt;/code&gt; was
+fixed for cases where there is no &lt;a href=&quot;https://40ants.com/defmain/#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot; data-document=&quot;https://40ants.com/defmain/&quot; data-node=&quot;x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot;&gt;&lt;code&gt;defmain:defcommand&lt;/code&gt;&lt;/a&gt; calls beside &lt;a href=&quot;https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot; data-document=&quot;https://40ants.com/defmain/&quot; data-node=&quot;x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot;&gt;&lt;code&gt;defmain:defmain&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;</description>
+            <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.7.0  (2018-06-13)</title>
+            <description>&lt;p&gt;Defmain macro now restores temporary pathnames inside of &lt;code&gt;cl-fad&lt;/code&gt; and
+&lt;code&gt;uiop&lt;/code&gt; packages by setting &lt;code&gt;logical-pathname-translations&lt;/code&gt; for
+&lt;code&gt;&amp;quot;TEMPORARY-FILES&amp;quot;&lt;/code&gt; and by calling
+&lt;code&gt;(uiop:setup-temporary-directory)&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;This solves issues in programs which use &lt;code&gt;(uiop:run-program ...)&lt;/code&gt; or
+&lt;code&gt;(cl-fad:with-output-to-temporary-file ...)&lt;/code&gt; for example.&lt;/p&gt;</description>
+            <pubDate>Wed, 13 Jun 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.6.1  (2018-06-08)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Now function &lt;a href=&quot;https://40ants.com/defmain/#x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/defmain/&quot; data-node=&quot;x-28DEFMAIN-3AGET-SUBCOMMAND-NAME-20FUNCTION-29&quot;&gt;&lt;code&gt;defmain:get-subcommand-name&lt;/code&gt;&lt;/a&gt; is available in the main function
+if your specified &lt;code&gt;&amp;amp;SUBCOMMAND&lt;/code&gt; as it&apos;s argument.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Fri, 08 Jun 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.6.0  (2018-06-07)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added support for nested commands defined with &lt;a href=&quot;https://40ants.com/defmain/#x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot; data-document=&quot;https://40ants.com/defmain/&quot; data-node=&quot;x-28DEFMAIN-3ADEFCOMMAND-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot;&gt;&lt;code&gt;defmain:defcommand&lt;/code&gt;&lt;/a&gt; macro.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.5.0  (2018-06-02)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;System was made a &lt;code&gt;package-inferred&lt;/code&gt; and now uses Rove for tests.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sat, 02 Jun 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.4.0  (2018-05-18)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Now &lt;a href=&quot;https://40ants.com/defmain/#x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot; data-document=&quot;https://40ants.com/defmain/&quot; data-node=&quot;x-28DEFMAIN-3ADEFMAIN-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29&quot;&gt;&lt;code&gt;defmain:defmain&lt;/code&gt;&lt;/a&gt; handles all unhandled conditions, prints a backtrace
+  and program exists with error code &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Previously, programs just started debugger and if built with &lt;code&gt;CCL&lt;/code&gt; it
+  was impossible to interrupt it.
+* Now it is possible to overwrite a short name of a parameter.
+  For example:&lt;/p&gt;&lt;p&gt;&lt;code&gt;lisp
+  (defmain main ((verbose &amp;quot;Show more informaition&amp;quot;
+                          :flag t) ;; by default -v will be used
+                 (version &amp;quot;Show version&amp;quot;
+                          :flag t
+                          :short &amp;quot;V&amp;quot;))
+    ...)
+&lt;/code&gt;&lt;/p&gt;&lt;p&gt;Also, you can pass &lt;code&gt;NIL&lt;/code&gt; as a value to disable short name:&lt;/p&gt;&lt;p&gt;&lt;code&gt;lisp
+  (defmain main ((verbose &amp;quot;Show more informaition&amp;quot;
+                          :flag t) ;; by default -v will be used
+                 (version &amp;quot;Show version&amp;quot;
+                          :flag t
+                          :short &amp;quot;V&amp;quot;))
+    ...)
+&lt;/code&gt;&lt;/p&gt;</description>
+            <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.3.0  (2018-05-12)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Fixed a way how &lt;code&gt;--help&lt;/code&gt; option is processed. Now, this argument
+  can be redefined by user, for example, to give this option another
+  description.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Now, if &lt;code&gt;:default &amp;quot;some string&amp;quot;&lt;/code&gt; is given for option, then it will
+  be parsed as string. Previously, &lt;code&gt;lispobj&lt;/code&gt; type was used to parse
+  value, and there were problems when you tried to pass as a value
+  string with a colon, like some &lt;code&gt;URL&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sat, 12 May 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.2.0  (2018-02-09)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added function &lt;a href=&quot;https://40ants.com/defmain/#x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/defmain/&quot; data-node=&quot;x-28DEFMAIN-3APRINT-HELP-20FUNCTION-29&quot;&gt;&lt;code&gt;defmain:print-help&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Fixed handling of existing &lt;code&gt;help&lt;/code&gt; option. Now you can redefine it
+  to give another description.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Fri, 09 Feb 2018 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.1.0</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Number features here.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Like that.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Add new versions to the top.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Specify dates as &lt;code&gt;2017-04-19&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Read &lt;a href=&quot;http://keepachangelog.com/&quot;&gt;KeepAChangelog.com&lt;/a&gt; for futher
+  explanations.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+        </item>
+    </channel>
+</rss>
