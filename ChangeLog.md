@@ -2,15 +2,21 @@
 
 # ChangeLog
 
+<a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E13-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## 0.13.1 (2024-04-29)
+
+* Removed unnecessary text "Here is a list of all supported commands" from the help message of a command having subcommands.
+
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E13-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.13.0
+## 0.13.0 (2021-09-04)
 
 * Moved to a new documentation rendering engine.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E12-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.12.1
+## 0.12.1 (2021-08-24)
 
 * Added `(declare (ignorable %pop-argument))` to suppress a compiler `NOTE` under `SBCL`.
 
@@ -18,14 +24,14 @@ Thanks to Alessio Stalla!
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E12-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.12.0
+## 0.12.0 (2021-06-05)
 
 * Added LispWorks support.
 * Program name now evaluated at runtime instead of a compile-time.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E11-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.11.0
+## 0.11.0 (2021-05-08)
 
 <a id="backward-incompatible-change"></a>
 
@@ -46,7 +52,7 @@ can carry optional keyword arguments, such as
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E10-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.10.0
+## 0.10.0 (2021-04-25)
 
 * Moved documentation from reStructured readme to `40ANTS-DOC`
   documentation builder.
@@ -55,7 +61,7 @@ can carry optional keyword arguments, such as
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.9.1
+## 0.9.1 (2021-01-27)
 
 * Fixed work under `ABCL` and probably `CMUCL`.
 * Help commands now exit with 0 status code.
@@ -63,7 +69,7 @@ can carry optional keyword arguments, such as
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E9-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.9.0
+## 0.9.0 (2018-12-07)
 
 * Added support for programs, built with `ASDF:MAKE`.
 
@@ -86,7 +92,7 @@ qlot exec ros run -L sbcl -e '(asdf:make :work-hours)'
 ```
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E8-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.8.0
+## 0.8.0 (2018-10-15)
 
 * Added support for positional arguments.
 * Fixed issue of catching signals not inherited  `error` and
@@ -94,20 +100,20 @@ qlot exec ros run -L sbcl -e '(asdf:make :work-hours)'
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E2-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.7.2
+## 0.7.2 (2018-07-14)
 
 * Added `Ctrl-C` handling. However seems it does not work for `CCL` :(
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.7.1
+## 0.7.1 (2018-06-15)
 
 Error `Undeclared free variable DEFMAIN/DEFMAIN:HELP-COMMANDS` was
 fixed for cases where there is no [`defmain:defcommand`][4b6c] calls beside [`defmain:defmain`][4130].
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E7-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.7.0
+## 0.7.0 (2018-06-13)
 
 Defmain macro now restores temporary pathnames inside of `cl-fad` and
 `uiop` packages by setting `logical-pathname-translations` for
@@ -119,26 +125,26 @@ This solves issues in programs which use `(uiop:run-program ...)` or
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E6-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.6.1
+## 0.6.1 (2018-06-08)
 
 * Now function [`defmain:get-subcommand-name`][86bc] is available in the main function
 if your specified `&SUBCOMMAND` as it's argument.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E6-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.6.0
+## 0.6.0 (2018-06-07)
 
 * Added support for nested commands defined with [`defmain:defcommand`][4b6c] macro.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E5-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.5.0
+## 0.5.0 (2018-06-02)
 
 * System was made a `package-inferred` and now uses Rove for tests.
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E4-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.4.0
+## 0.4.0 (2018-05-18)
 
 * Now [`defmain:defmain`][4130] handles all unhandled conditions, prints a backtrace
   and program exists with error code `1`.
@@ -170,7 +176,7 @@ Also, you can pass `NIL` as a value to disable short name:
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E3-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.3.0
+## 0.3.0 (2018-05-12)
 
 * Fixed a way how `--help` option is processed. Now, this argument
   can be redefined by user, for example, to give this option another
@@ -182,7 +188,7 @@ Also, you can pass `NIL` as a value to disable short name:
 
 <a id="x-28DEFMAIN-2FCHANGELOG-3A-3A-7C0-2E2-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
-## 0.2.0
+## 0.2.0 (2018-02-09)
 
 * Added function [`defmain:print-help`][9b39].
 * Fixed handling of existing `help` option. Now you can redefine it
