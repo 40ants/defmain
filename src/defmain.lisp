@@ -533,7 +533,6 @@ Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING
           (format *error-output* "Command \"~A\" was not found.~%"
                   (string-downcase command-name))
           (format *error-output* "Please, specify a command.~%"))
-      (format *error-output* "~2&Here is a list of all supported commands:~2%")
       
       (%print-commands-help parent :stream *error-output*)
       (uiop:quit 1))
